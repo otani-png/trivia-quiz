@@ -9,12 +9,12 @@
 
     body {
       font-family: 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Yu Gothic', sans-serif;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      background: linear-gradient(150deg, #fffdf9 0%, #fff5f0 60%, #fdf5ff 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: #fff;
+      color: #1a1214;
     }
 
     .top-line {
@@ -51,7 +51,51 @@
     .header p {
       font-size: 0.78rem;
       letter-spacing: 0.28em;
-      color: #8899aa;
+      color: #9a8878;
+    }
+
+    /* ── 通算スコア */
+    .total-stats {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.6rem;
+      padding: 0.7rem 1.2rem;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .total-stat {
+      text-align: center;
+    }
+
+    .total-stat .ts-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: #9a8878;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .total-stat .ts-value {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #1a1214;
+    }
+
+    .total-stat .ts-value.accent {
+      background: linear-gradient(90deg, #e94560, #f5a623);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .total-sep {
+      width: 1px;
+      background: rgba(0,0,0,0.08);
+      align-self: stretch;
     }
 
     /* ── プログレスバー */
@@ -62,13 +106,13 @@
       justify-content: space-between;
       font-size: 0.78rem;
       letter-spacing: 0.08em;
-      color: #8899aa;
+      color: #9a8878;
       margin-bottom: 0.5rem;
     }
 
     .progress-bar {
       height: 5px;
-      background: rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.08);
       border-radius: 3px;
       overflow: hidden;
     }
@@ -80,50 +124,19 @@
       transition: width 0.45s ease;
     }
 
-    /* ── スコア表示 */
-    .score-display {
-      display: flex;
-      gap: 0.8rem;
-      margin-bottom: 1.4rem;
-    }
-
-    .score-card {
-      flex: 1;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 12px;
-      padding: 0.85rem 0.5rem;
-      text-align: center;
-    }
-
-    .score-card .label {
-      font-size: 0.65rem;
-      letter-spacing: 0.22em;
-      color: #8899aa;
-      margin-bottom: 0.3rem;
-      display: block;
-    }
-
-    .score-card .value { font-size: 1.6rem; font-weight: bold; }
-    .score-card.accuracy .value {
-      background: linear-gradient(90deg, #e94560, #f5a623);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .score-card.correct .value { color: #4ade80; }
-    .score-card.wrong   .value { color: #f87171; }
-
     /* ── 問題カード */
     .question-card {
-      background: rgba(255,255,255,0.07);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.10);
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.07);
       border-radius: 20px;
       padding: 1.8rem 2rem 1.6rem;
       margin-bottom: 1rem;
-      position: relative;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      transition: box-shadow 0.3s;
     }
+
+    .question-card.is-correct { box-shadow: 0 4px 24px rgba(22,163,74,0.15); }
+    .question-card.is-wrong   { box-shadow: 0 4px 24px rgba(220,38,38,0.12); }
 
     /* バッジ行 */
     .badge-row {
@@ -140,14 +153,14 @@
       border-radius: 2px;
     }
 
-    .badge-num { border-color: rgba(233,69,96,0.5);   color: #e94560; }
-    .badge-cat { border-color: rgba(245,166,35,0.45); color: #f5a623; }
+    .badge-num { border-color: rgba(233,69,96,0.4); color: #e94560; }
+    .badge-cat { border-color: rgba(196,120,10,0.4); color: #c47810; }
 
     /* 問題テキスト */
     .quote-box {
       border-left: 2px solid #e94560;
       padding: 0.9rem 1rem 0.9rem 1.2rem;
-      background: linear-gradient(to right, rgba(233,69,96,0.06), transparent);
+      background: linear-gradient(to right, rgba(233,69,96,0.05), transparent);
       margin-bottom: 1.6rem;
       min-height: 60px;
       display: flex;
@@ -158,7 +171,58 @@
       font-size: 1.12rem;
       line-height: 1.85;
       letter-spacing: 0.03em;
+      color: #1a1214;
     }
+
+    /* ── 〇×ボタン */
+    .tf-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .tf-btn {
+      padding: 1.2rem;
+      font-size: 2.8rem;
+      line-height: 1;
+      border: 1.5px solid;
+      border-radius: 14px;
+      background: transparent;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+
+    .tf-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .tf-btn:active:not(:disabled) { transform: translateY(0); }
+    .tf-btn:disabled { cursor: not-allowed; }
+
+    .tf-true  { border-color: rgba(22,163,74,0.5);   color: #16a34a; }
+    .tf-false { border-color: rgba(220,38,38,0.45);  color: #dc2626; }
+
+    .tf-true:hover:not(:disabled)  { background: rgba(22,163,74,0.07); }
+    .tf-false:hover:not(:disabled) { background: rgba(220,38,38,0.06); }
+
+    .tf-btn.selected-correct {
+      background: rgba(22,163,74,0.12);
+      border-color: #16a34a;
+      color: #16a34a;
+      opacity: 1 !important;
+    }
+
+    .tf-btn.selected-wrong {
+      background: rgba(220,38,38,0.10);
+      border-color: #dc2626;
+      color: #dc2626;
+      opacity: 1 !important;
+    }
+
+    .tf-btn.dim { opacity: 0.2 !important; }
 
     /* ── インライン結果表示 */
     .answer-result {
@@ -174,13 +238,13 @@
     .answer-result.show { display: flex; }
 
     .answer-result.correct {
-      background: rgba(74,222,128,0.12);
-      border: 1px solid rgba(74,222,128,0.35);
+      background: rgba(22,163,74,0.08);
+      border: 1px solid rgba(22,163,74,0.3);
     }
 
     .answer-result.wrong {
-      background: rgba(248,113,113,0.10);
-      border: 1px solid rgba(248,113,113,0.35);
+      background: rgba(220,38,38,0.07);
+      border: 1px solid rgba(220,38,38,0.3);
     }
 
     .ar-icon { font-size: 1.6rem; flex-shrink: 0; }
@@ -192,74 +256,24 @@
       margin-bottom: 0.1rem;
     }
 
-    .answer-result.correct .ar-verdict { color: #4ade80; }
-    .answer-result.wrong   .ar-verdict { color: #f87171; }
+    .answer-result.correct .ar-verdict { color: #16a34a; }
+    .answer-result.wrong   .ar-verdict { color: #dc2626; }
 
     .ar-truth {
       font-size: 0.75rem;
-      color: #8899aa;
+      color: #9a8878;
       letter-spacing: 0.06em;
     }
 
-    /* ── 〇×ボタン */
-    .tf-btns {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .tf-btn {
-      padding: 1.2rem;
-      font-size: 2.8rem;
-      line-height: 1;
-      border: 1px solid;
-      border-radius: 14px;
-      background: transparent;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-    }
-
-    .tf-btn:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-
-    .tf-btn:active:not(:disabled) { transform: translateY(0); }
-    .tf-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-    .tf-true  { border-color: rgba(74,222,128,0.45);  color: #4ade80; }
-    .tf-false { border-color: rgba(248,113,113,0.45); color: #f87171; }
-
-    .tf-true:hover:not(:disabled)  { background: rgba(74,222,128,0.1); }
-    .tf-false:hover:not(:disabled) { background: rgba(248,113,113,0.1); }
-
-    .tf-btn.selected-correct {
-      background: rgba(74,222,128,0.18);
-      border-color: #4ade80;
-      color: #4ade80;
-      opacity: 1 !important;
-    }
-
-    .tf-btn.selected-wrong {
-      background: rgba(248,113,113,0.15);
-      border-color: #f87171;
-      color: #f87171;
-      opacity: 1 !important;
-    }
-
-    .tf-btn.dim { opacity: 0.2 !important; }
-
     /* ── 解説 */
     .explanation {
-      background: rgba(245,166,35,0.07);
-      border: 1px solid rgba(245,166,35,0.18);
+      background: rgba(196,120,10,0.06);
+      border: 1px solid rgba(196,120,10,0.2);
       border-radius: 11px;
       padding: 0.9rem 1.1rem;
       font-size: 0.84rem;
       line-height: 1.8;
-      color: #b8ccd8;
+      color: #5a4530;
       display: none;
       margin-bottom: 1rem;
     }
@@ -269,7 +283,7 @@
     .explanation .ex-label {
       font-size: 0.65rem;
       letter-spacing: 0.25em;
-      color: #f5a623;
+      color: #c47810;
       display: block;
       margin-bottom: 0.4rem;
     }
@@ -278,7 +292,7 @@
     .btn-next {
       width: 100%;
       padding: 0.9rem;
-      border: 1px solid rgba(233,69,96,0.5);
+      border: 1.5px solid rgba(233,69,96,0.5);
       background: transparent;
       color: #e94560;
       font-family: inherit;
@@ -286,16 +300,15 @@
       letter-spacing: 0.3em;
       cursor: pointer;
       border-radius: 11px;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      transition: background 0.2s, border-color 0.2s;
       display: none;
     }
 
     .btn-next.show { display: block; }
 
     .btn-next:hover {
-      background: rgba(233,69,96,0.13);
+      background: rgba(233,69,96,0.07);
       border-color: #e94560;
-      color: #ff7090;
     }
 
     /* カウンター */
@@ -308,14 +321,14 @@
     .counter .c-label {
       font-size: 0.6rem;
       letter-spacing: 0.28em;
-      color: #8899aa;
+      color: #9a8878;
       display: block;
       margin-bottom: 0.3rem;
     }
 
     .counter .c-num {
       font-size: 1rem;
-      color: #f5a623;
+      color: #c47810;
       font-weight: bold;
       letter-spacing: 0.08em;
     }
@@ -333,13 +346,13 @@
     .result-screen.show { display: flex; }
 
     .result-card {
-      background: rgba(255,255,255,0.07);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.10);
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.07);
       border-radius: 20px;
       padding: 2.5rem 2rem;
       text-align: center;
       width: 100%;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
       animation: slideUp 0.5s ease;
     }
 
@@ -350,7 +363,7 @@
       letter-spacing: 0.3em;
       text-indent: 0.3em;
       margin-bottom: 1rem;
-      color: #ddeeff;
+      color: #1a1214;
     }
 
     .result-pct {
@@ -367,42 +380,71 @@
     .result-detail {
       font-size: 0.78rem;
       letter-spacing: 0.18em;
-      color: #8899aa;
-      margin-bottom: 1.8rem;
+      color: #9a8878;
+      margin-bottom: 1.6rem;
     }
 
     .result-score-row {
       display: flex;
       gap: 1rem;
       justify-content: center;
-      margin-bottom: 1.6rem;
+      margin-bottom: 1rem;
     }
 
     .result-score-card {
       flex: 1;
       max-width: 120px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: #f9f7f4;
+      border: 1px solid rgba(0,0,0,0.07);
       border-radius: 10px;
       padding: 1rem 0.5rem;
     }
 
-    .result-score-card .rs-label { font-size: 0.62rem; letter-spacing: 0.22em; color: #8899aa; margin-bottom: 0.4rem; display: block; }
+    .result-score-card .rs-label { font-size: 0.62rem; letter-spacing: 0.22em; color: #9a8878; margin-bottom: 0.4rem; display: block; }
     .result-score-card .rs-val   { font-size: 1.8rem; font-weight: bold; }
-    .result-score-card.c .rs-val { color: #4ade80; }
-    .result-score-card.w .rs-val { color: #f87171; }
+    .result-score-card.c .rs-val { color: #16a34a; }
+    .result-score-card.w .rs-val { color: #dc2626; }
+
+    /* 通算記録（結果画面） */
+    .result-total {
+      background: #f9f7f4;
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1.4rem;
+      font-size: 0.82rem;
+      color: #5a4530;
+      letter-spacing: 0.05em;
+    }
+
+    .result-total .rt-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      color: #9a8878;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .result-total .rt-val {
+      font-size: 1.1rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #e94560, #f5a623);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
     .result-divider {
       width: 40px;
       height: 1px;
-      background: rgba(233,69,96,0.4);
+      background: rgba(233,69,96,0.3);
       margin: 0 auto 1.4rem;
     }
 
     .result-msg {
       font-size: 0.88rem;
       line-height: 1.85;
-      color: #aabbcc;
+      color: #5a4530;
       letter-spacing: 0.04em;
       margin-bottom: 1.8rem;
     }
@@ -410,7 +452,7 @@
     .btn-retry {
       width: 100%;
       padding: 0.9rem;
-      border: 1px solid rgba(233,69,96,0.5);
+      border: 1.5px solid rgba(233,69,96,0.5);
       background: transparent;
       color: #e94560;
       font-family: inherit;
@@ -418,20 +460,17 @@
       letter-spacing: 0.3em;
       cursor: pointer;
       border-radius: 11px;
-      transition: background 0.2s, color 0.2s;
+      transition: background 0.2s;
     }
 
-    .btn-retry:hover {
-      background: rgba(233,69,96,0.13);
-      color: #ff7090;
-    }
+    .btn-retry:hover { background: rgba(233,69,96,0.07); }
 
     /* フッター */
     .footer-deco {
       padding: 1.5rem 0 2rem;
       font-size: 0.7rem;
       letter-spacing: 0.5em;
-      color: rgba(233,69,96,0.25);
+      color: rgba(233,69,96,0.2);
     }
 
     /* アニメーション */
@@ -456,10 +495,10 @@
     .anim-pop   { animation: pop    0.3s ease; }
 
     @media (max-width: 480px) {
-      .header h1   { font-size: 1.5rem; }
-      .tf-btn      { font-size: 2.2rem; padding: 1rem; }
+      .header h1     { font-size: 1.5rem; }
+      .tf-btn        { font-size: 2.2rem; padding: 1rem; }
       .question-card { padding: 1.4rem 1.2rem 1.2rem; }
-      .result-pct  { font-size: 4rem; }
+      .result-pct    { font-size: 4rem; }
     }
   </style>
 </head>
@@ -474,6 +513,24 @@
     <p>本当か嘘か、知識で見破れ</p>
   </div>
 
+  <!-- 通算スコア -->
+  <div class="total-stats">
+    <div class="total-stat">
+      <span class="ts-label">通 算 正 解</span>
+      <span class="ts-value accent" id="totalCorrectDisplay">0</span>
+    </div>
+    <div class="total-sep"></div>
+    <div class="total-stat">
+      <span class="ts-label">通 算 挑 戦</span>
+      <span class="ts-value" id="totalAnsweredDisplay">0</span>
+    </div>
+    <div class="total-sep"></div>
+    <div class="total-stat">
+      <span class="ts-label">通 算 正 解 率</span>
+      <span class="ts-value accent" id="totalRateDisplay">－</span>
+    </div>
+  </div>
+
   <div class="progress-section">
     <div class="progress-info">
       <span id="progressText">問題 1 / 20</span>
@@ -481,21 +538,6 @@
     </div>
     <div class="progress-bar">
       <div class="progress-fill" id="progressFill" style="width:0%"></div>
-    </div>
-  </div>
-
-  <div class="score-display">
-    <div class="score-card accuracy">
-      <span class="label">正 解 率</span>
-      <span class="value" id="accuracyVal">－</span>
-    </div>
-    <div class="score-card correct">
-      <span class="label">正 解</span>
-      <span class="value" id="correctVal">0</span>
-    </div>
-    <div class="score-card wrong">
-      <span class="label">不 正 解</span>
-      <span class="value" id="wrongVal">0</span>
     </div>
   </div>
 
@@ -553,6 +595,10 @@
         <span class="rs-val" id="rWrong"></span>
       </div>
     </div>
+    <div class="result-total">
+      <span class="rt-label">通 算 成 績</span>
+      <span class="rt-val" id="resultTotalText"></span>
+    </div>
     <div class="result-divider"></div>
     <div class="result-msg" id="resultMsg"></div>
     <button class="btn-retry" onclick="restart()">▷ &nbsp; もう一度挑戦</button>
@@ -562,110 +608,51 @@
 <p class="footer-deco">✦ &nbsp; ✦ &nbsp; ✦</p>
 
 <script>
-// isTrue: true = 本当の雑学、false = 嘘の雑学
+const STORAGE_KEY = 'trivia-quiz-stats';
+
+function loadTotal() {
+  try {
+    const s = localStorage.getItem(STORAGE_KEY);
+    return s ? JSON.parse(s) : { correct: 0, answered: 0 };
+  } catch { return { correct: 0, answered: 0 }; }
+}
+
+function saveTotal(addCorrect, addAnswered) {
+  const t = loadTotal();
+  t.correct  += addCorrect;
+  t.answered += addAnswered;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(t));
+}
+
+function updateTotalDisplay() {
+  const t = loadTotal();
+  document.getElementById('totalCorrectDisplay').textContent  = t.correct;
+  document.getElementById('totalAnsweredDisplay').textContent = t.answered;
+  const rate = t.answered > 0 ? Math.round((t.correct / t.answered) * 100) + '%' : '－';
+  document.getElementById('totalRateDisplay').textContent = rate;
+}
+
 const quizData = [
-  // ── 本当の雑学 ──────────────────────────────────
-  {
-    q: "タコには心臓が3つある。",
-    isTrue: true, cat: "生き物",
-    ex: "えら心臓が2つ＋体心臓が1つで合計3つです。えら心臓が血液をえらへ送り、体心臓が全身に循環させます。"
-  },
-  {
-    q: "富士山の標高は3,776mである。",
-    isTrue: true, cat: "日本",
-    ex: "日本最高峰で標高3,776m。最後の噴火は1707年の宝永大噴火で、そのとき山腹に宝永火口が形成されました。"
-  },
-  {
-    q: "成人の人間の骨の数は約206本である。",
-    isTrue: true, cat: "人体",
-    ex: "赤ちゃんは約300本以上ありますが、成長とともに骨が融合して成人では約206本になります。"
-  },
-  {
-    q: "人間の脳は体重の約2%しかないが、全身エネルギーの約20%を消費する。",
-    isTrue: true, cat: "人体",
-    ex: "脳はサイズのわりに非常にエネルギー消費が大きい器官です。常に膨大な情報処理を行っているためです。"
-  },
-  {
-    q: "蜂蜜は適切に密封保存すれば何千年経っても腐らない。",
-    isTrue: true, cat: "食べ物",
-    ex: "エジプトの王墓から約3300年前の蜂蜜が食べられる状態で発見されています。高糖度・低水分で細菌が繁殖できないためです。"
-  },
-  {
-    q: "サメが地球上に登場したのは、恐竜より3億年以上前のことだ。",
-    isTrue: true, cat: "生き物",
-    ex: "サメは約4億5000万年前（オルドビス紀）に出現。恐竜の出現は約2億3000万年前なので、サメはそれより約2億2000万年古い生き物です。"
-  },
-  {
-    q: "アリは自分の体重の約50倍の重さを運ぶことができる。",
-    isTrue: true, cat: "生き物",
-    ex: "体が小さいほど体積に対する筋肉断面積の割合が大きくなるため、相対的に大きな力を発揮できます。種類によっては50倍以上の記録もあります。"
-  },
-  {
-    q: "日本の国鳥はキジである。",
-    isTrue: true, cat: "日本",
-    ex: "1947年に日本鳥学会が選定しました。桃太郎にも登場するなど日本人に古くから親しまれており、１万円札の裏にも描かれています。"
-  },
-  {
-    q: "人体の血管をすべてつなげると、地球を2周以上できる長さになる。",
-    isTrue: true, cat: "人体",
-    ex: "毛細血管を含む総延長は約10万km。地球一周が約4万kmなので、約2.5周分の長さになります。"
-  },
-  {
-    q: "眠っている犬が夢を見ることは科学的に確認されている。",
-    isTrue: true, cat: "生き物",
-    ex: "MITの研究で、犬はREM睡眠中に日中の出来事を夢として再体験していることが確認されています。寝ている犬の足が動くのはそのためです。"
-  },
-  // ── 嘘の雑学 ──────────────────────────────────
-  {
-    q: "金魚の記憶はわずか3秒しか持続しない。",
-    isTrue: false, cat: "生き物",
-    ex: "都市伝説です。金魚の記憶は数ヶ月間持続することが研究で証明されています。餌のある場所を記憶し、条件反射的な学習もできます。"
-  },
-  {
-    q: "万里の長城は宇宙から肉眼で見える。",
-    isTrue: false, cat: "歴史",
-    ex: "幅5〜8mほどの長城は細すぎて宇宙からは見えません。中国の宇宙飛行士・楊利偉氏も「見えなかった」と証言しています。"
-  },
-  {
-    q: "ナポレオンの身長は当時のフランス人男性平均より20cm以上低かった。",
-    isTrue: false, cat: "歴史",
-    ex: "ナポレオンは約169cmで、当時の平均（約165cm）より高かったです。「低い」という印象はイギリスのプロパガンダと単位換算ミスが原因とされています。"
-  },
-  {
-    q: "コウモリは目が見えないため、エコーロケーションだけを頼りに行動する。",
-    isTrue: false, cat: "生き物",
-    ex: "コウモリは目が見えないわけではありません。多くの種は視覚も持っており、エコーロケーションは暗闇での補助的なナビゲーション手段です。"
-  },
-  {
-    q: "チョコレートは犬には有毒だが、猫には無害である。",
-    isTrue: false, cat: "生き物",
-    ex: "チョコレートのテオブロミンは猫にも有毒です。ただし猫は甘味を感じる受容体がないため自発的に食べたがらず、中毒例が犬より少ないだけです。"
-  },
-  {
-    q: "ペンギンは南極と北極の両方に生息している。",
-    isTrue: false, cat: "生き物",
-    ex: "ペンギンはすべての種が南半球にのみ生息しています。北極にペンギンは存在せず、似た生態を持つオオウミガラス（現在は絶滅）が代わりにいました。"
-  },
-  {
-    q: "カメレオンが体色を変えるのは、主に天敵から身を守るカモフラージュのためだ。",
-    isTrue: false, cat: "生き物",
-    ex: "カメレオンの体色変化の主な目的はコミュニケーションと体温調節です。皮膚内のナノ結晶が光の反射を変えることで色が変わります。"
-  },
-  {
-    q: "人間は死後も髪の毛と爪が伸び続ける。",
-    isTrue: false, cat: "人体",
-    ex: "死後は細胞分裂が止まるため伸びません。死後に皮膚が乾燥・収縮することで爪や髪が相対的に長く見えるだけです。"
-  },
-  {
-    q: "光が地球を一周するのにかかる時間は約1秒である。",
-    isTrue: false, cat: "科学",
-    ex: "光の速さは約30万km/秒、地球一周は約4万kmなので、1周は約0.13秒（133ミリ秒）です。1秒間で地球を約7.5周できます。"
-  },
-  {
-    q: "ガラスは非常にゆっくりと流れ続ける液体であり、古い窓ガラスの下が厚いのはそのためだ。",
-    isTrue: false, cat: "科学",
-    ex: "ガラスは常温で完全な固体です。古い窓ガラスの下が厚いのは、当時の製造技術の限界で厚い側を安定のため下にして設置したからです。"
-  },
+  { q: "タコには心臓が3つある。",                                                            isTrue: true,  cat: "生き物", ex: "えら心臓が2つ＋体心臓が1つで合計3つです。えら心臓が血液をえらへ送り、体心臓が全身に循環させます。" },
+  { q: "富士山の標高は3,776mである。",                                                        isTrue: true,  cat: "日本",   ex: "日本最高峰で標高3,776m。最後の噴火は1707年の宝永大噴火で、そのとき山腹に宝永火口が形成されました。" },
+  { q: "成人の人間の骨の数は約206本である。",                                                  isTrue: true,  cat: "人体",   ex: "赤ちゃんは約300本以上ありますが、成長とともに骨が融合して成人では約206本になります。" },
+  { q: "人間の脳は体重の約2%しかないが、全身エネルギーの約20%を消費する。",                      isTrue: true,  cat: "人体",   ex: "脳はサイズのわりに非常にエネルギー消費が大きい器官です。常に膨大な情報処理を行っているためです。" },
+  { q: "蜂蜜は適切に密封保存すれば何千年経っても腐らない。",                                      isTrue: true,  cat: "食べ物", ex: "エジプトの王墓から約3300年前の蜂蜜が食べられる状態で発見されています。高糖度・低水分で細菌が繁殖できないためです。" },
+  { q: "サメが地球上に登場したのは、恐竜より3億年以上前のことだ。",                               isTrue: true,  cat: "生き物", ex: "サメは約4億5000万年前（オルドビス紀）に出現。恐竜の出現は約2億3000万年前なので、サメはそれより約2億2000万年古い生き物です。" },
+  { q: "アリは自分の体重の約50倍の重さを運ぶことができる。",                                      isTrue: true,  cat: "生き物", ex: "体が小さいほど体積に対する筋肉断面積の割合が大きくなるため、相対的に大きな力を発揮できます。種類によっては50倍以上の記録もあります。" },
+  { q: "日本の国鳥はキジである。",                                                             isTrue: true,  cat: "日本",   ex: "1947年に日本鳥学会が選定しました。桃太郎にも登場するなど日本人に古くから親しまれており、１万円札の裏にも描かれています。" },
+  { q: "人体の血管をすべてつなげると、地球を2周以上できる長さになる。",                            isTrue: true,  cat: "人体",   ex: "毛細血管を含む総延長は約10万km。地球一周が約4万kmなので、約2.5周分の長さになります。" },
+  { q: "眠っている犬が夢を見ることは科学的に確認されている。",                                     isTrue: true,  cat: "生き物", ex: "MITの研究で、犬はREM睡眠中に日中の出来事を夢として再体験していることが確認されています。寝ている犬の足が動くのはそのためです。" },
+  { q: "金魚の記憶はわずか3秒しか持続しない。",                                                  isTrue: false, cat: "生き物", ex: "都市伝説です。金魚の記憶は数ヶ月間持続することが研究で証明されています。餌のある場所を記憶し、条件反射的な学習もできます。" },
+  { q: "万里の長城は宇宙から肉眼で見える。",                                                     isTrue: false, cat: "歴史",   ex: "幅5〜8mほどの長城は細すぎて宇宙からは見えません。中国の宇宙飛行士・楊利偉氏も「見えなかった」と証言しています。" },
+  { q: "ナポレオンの身長は当時のフランス人男性平均より20cm以上低かった。",                          isTrue: false, cat: "歴史",   ex: "ナポレオンは約169cmで、当時の平均（約165cm）より高かったです。「低い」という印象はイギリスのプロパガンダと単位換算ミスが原因とされています。" },
+  { q: "コウモリは目が見えないため、エコーロケーションだけを頼りに行動する。",                       isTrue: false, cat: "生き物", ex: "コウモリは目が見えないわけではありません。多くの種は視覚も持っており、エコーロケーションは暗闇での補助的なナビゲーション手段です。" },
+  { q: "チョコレートは犬には有毒だが、猫には無害である。",                                          isTrue: false, cat: "生き物", ex: "チョコレートのテオブロミンは猫にも有毒です。ただし猫は甘味受容体がないため自発的に食べたがらず、中毒例が犬より少ないだけです。" },
+  { q: "ペンギンは南極と北極の両方に生息している。",                                               isTrue: false, cat: "生き物", ex: "ペンギンはすべての種が南半球にのみ生息しています。北極にペンギンは存在せず、似た生態を持つオオウミガラス（現在は絶滅）が代わりにいました。" },
+  { q: "カメレオンが体色を変えるのは、主に天敵から身を守るカモフラージュのためだ。",                 isTrue: false, cat: "生き物", ex: "カメレオンの体色変化の主な目的はコミュニケーションと体温調節です。皮膚内のナノ結晶が光の反射を変えることで色が変わります。" },
+  { q: "人間は死後も髪の毛と爪が伸び続ける。",                                                     isTrue: false, cat: "人体",   ex: "死後は細胞分裂が止まるため伸びません。死後に皮膚が乾燥・収縮することで爪や髪が相対的に長く見えるだけです。" },
+  { q: "光が地球を一周するのにかかる時間は約1秒である。",                                           isTrue: false, cat: "科学",   ex: "光の速さは約30万km/秒、地球一周は約4万kmなので、1周は約0.13秒（133ミリ秒）です。1秒間で地球を約7.5周できます。" },
+  { q: "ガラスは非常にゆっくりと流れ続ける液体で、古い窓ガラスの下が厚いのはそのためだ。",            isTrue: false, cat: "科学",   ex: "ガラスは常温で完全な固体です。古い窓ガラスの下が厚いのは、当時の製造技術の限界で厚い側を安定のため下にして設置したからです。" },
 ];
 
 let shuffled = [], currentIdx = 0, score = 0, wrong = 0, answered = false;
@@ -684,7 +671,7 @@ function init() {
   currentIdx = 0; score = 0; wrong = 0; answered = false;
   document.getElementById('gameArea').style.display = 'block';
   document.getElementById('resultScreen').classList.remove('show');
-  updateStats();
+  updateTotalDisplay();
   loadQuestion();
 }
 
@@ -703,8 +690,10 @@ function loadQuestion() {
   btnTrue.className  = 'tf-btn tf-true';
   btnFalse.className = 'tf-btn tf-false';
 
-  const ar = document.getElementById('answerResult');
-  ar.className = 'answer-result';
+  const card = document.getElementById('questionCard');
+  card.classList.remove('is-correct', 'is-wrong');
+
+  document.getElementById('answerResult').className = 'answer-result';
   document.getElementById('explanation').classList.remove('show');
   document.getElementById('btnNext').classList.remove('show');
 
@@ -712,8 +701,8 @@ function loadQuestion() {
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('progressText').textContent = `問題 ${currentIdx + 1} / ${shuffled.length}`;
   document.getElementById('progressPct').textContent  = pct + '%';
+  document.getElementById('myScore').textContent      = score;
 
-  const card = document.getElementById('questionCard');
   card.classList.remove('anim-slide', 'anim-shake', 'anim-pop');
   void card.offsetWidth;
   card.classList.add('anim-slide');
@@ -727,9 +716,8 @@ function selectAnswer(userSaysTrue) {
   const correct = userSaysTrue === q.isTrue;
 
   if (correct) score++; else wrong++;
-  updateStats();
+  document.getElementById('myScore').textContent = score;
 
-  // ボタンのスタイル変更
   const btnTrue  = document.getElementById('btnTrue');
   const btnFalse = document.getElementById('btnFalse');
   btnTrue.disabled  = true;
@@ -743,15 +731,15 @@ function selectAnswer(userSaysTrue) {
     btnTrue.classList.add('dim');
   }
 
-  // インライン結果表示
+  const card = document.getElementById('questionCard');
+  card.classList.add(correct ? 'is-correct' : 'is-wrong');
+
   const ar = document.getElementById('answerResult');
   document.getElementById('arIcon').textContent    = correct ? '⭕' : '❌';
   document.getElementById('arVerdict').textContent = correct ? '正解！' : '不正解…';
   document.getElementById('arTruth').textContent   = q.isTrue ? '本当の雑学でした' : '嘘の雑学でした';
   ar.classList.add(correct ? 'correct' : 'wrong', 'show');
 
-  // カードアニメーション
-  const card = document.getElementById('questionCard');
   card.classList.remove('anim-slide', 'anim-shake', 'anim-pop');
   void card.offsetWidth;
   card.classList.add(correct ? 'anim-pop' : 'anim-shake');
@@ -759,11 +747,9 @@ function selectAnswer(userSaysTrue) {
     card.classList.remove('anim-shake', 'anim-pop');
   }, { once: true });
 
-  // 解説
   document.getElementById('explanationText').textContent = q.ex;
   document.getElementById('explanation').classList.add('show');
 
-  // 次へボタン
   const btn = document.getElementById('btnNext');
   btn.textContent = currentIdx < shuffled.length - 1
     ? '▷ 　次の問題へ'
@@ -777,16 +763,11 @@ function nextQuestion() {
   else loadQuestion();
 }
 
-function updateStats() {
-  const total = score + wrong;
-  const acc   = total > 0 ? Math.round((score / total) * 100) : null;
-  document.getElementById('accuracyVal').textContent = acc !== null ? acc + '%' : '－';
-  document.getElementById('correctVal').textContent  = score;
-  document.getElementById('wrongVal').textContent    = wrong;
-  document.getElementById('myScore').textContent     = score;
-}
-
 function showResult() {
+  // 通算スコアに加算して保存
+  saveTotal(score, shuffled.length);
+  updateTotalDisplay();
+
   document.getElementById('gameArea').style.display = 'none';
   document.getElementById('resultScreen').classList.add('show');
 
@@ -797,6 +778,11 @@ function showResult() {
   document.getElementById('resultDetail').textContent = `${total}問中 ${score}問正解`;
   document.getElementById('rCorrect').textContent     = score;
   document.getElementById('rWrong').textContent       = wrong;
+
+  const t = loadTotal();
+  const totalRate = Math.round((t.correct / t.answered) * 100);
+  document.getElementById('resultTotalText').textContent =
+    `${t.answered}問挑戦 · ${t.correct}問正解 · 正解率 ${totalRate}%`;
 
   let emoji, msg;
   if      (pct >= 90) { emoji = '🏆'; msg = '素晴らしい！雑学マスターですね。ほぼすべての雑学を見破りました。'; }

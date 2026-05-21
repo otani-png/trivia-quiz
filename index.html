@@ -17,7 +17,6 @@
       color: #fff;
     }
 
-    /* ── 細い上部アクセントライン（参考サイトへの目配せ） */
     .top-line {
       width: 100%;
       height: 3px;
@@ -25,7 +24,6 @@
       flex-shrink: 0;
     }
 
-    /* ── メインコンテナ */
     .container {
       max-width: 640px;
       width: 90%;
@@ -127,7 +125,7 @@
       position: relative;
     }
 
-    /* バッジ行（参考サイトへの目配せ） */
+    /* バッジ行 */
     .badge-row {
       display: flex;
       gap: 0.5rem;
@@ -142,10 +140,10 @@
       border-radius: 2px;
     }
 
-    .badge-num { border-color: rgba(233,69,96,0.5); color: #e94560; }
+    .badge-num { border-color: rgba(233,69,96,0.5);   color: #e94560; }
     .badge-cat { border-color: rgba(245,166,35,0.45); color: #f5a623; }
 
-    /* 問題テキスト（左ボーダーのquote-box風） */
+    /* 問題テキスト */
     .quote-box {
       border-left: 2px solid #e94560;
       padding: 0.9rem 1rem 0.9rem 1.2rem;
@@ -177,11 +175,11 @@
     }
 
     .feedback-overlay.show { opacity: 1; }
-    .feedback-overlay.correct { background: rgba(74,222,128,0.18); border: 2px solid #4ade80; border-radius: 20px; }
+    .feedback-overlay.correct { background: rgba(74,222,128,0.18);  border: 2px solid #4ade80; border-radius: 20px; }
     .feedback-overlay.wrong   { background: rgba(248,113,113,0.15); border: 2px solid #f87171; border-radius: 20px; }
 
-    .feedback-icon { font-size: 2.8rem; margin-bottom: 0.3rem; }
-    .feedback-text { font-size: 1.1rem; font-weight: bold; }
+    .feedback-icon  { font-size: 2.8rem; margin-bottom: 0.3rem; }
+    .feedback-text  { font-size: 1.1rem; font-weight: bold; }
     .feedback-truth {
       font-size: 0.78rem;
       color: rgba(255,255,255,0.65);
@@ -189,60 +187,39 @@
       letter-spacing: 0.06em;
     }
 
-    /* ── 4択ボタン */
-    .choices {
+    /* ── 〇×ボタン */
+    .tf-btns {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.7rem;
+      gap: 1rem;
       margin-bottom: 1rem;
     }
 
-    .choice-btn {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.55rem;
-      padding: 0.85rem 1rem;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 11px;
-      color: #cdd6e0;
-      font-size: 0.88rem;
-      font-family: inherit;
-      text-align: left;
+    .tf-btn {
+      padding: 1.2rem;
+      font-size: 2.8rem;
+      line-height: 1;
+      border: 1px solid;
+      border-radius: 14px;
+      background: transparent;
       cursor: pointer;
-      transition: background 0.2s, border-color 0.2s, transform 0.15s;
-      line-height: 1.5;
-      letter-spacing: 0.02em;
+      font-family: inherit;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
 
-    .choice-btn:hover:not(:disabled) {
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.22);
-      transform: translateY(-2px);
+    .tf-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
 
-    .choice-btn:disabled { cursor: not-allowed; }
+    .tf-btn:active:not(:disabled) { transform: translateY(0); }
+    .tf-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-    .choice-btn.correct { background: rgba(74,222,128,0.13); border-color: #4ade80; color: #4ade80; }
-    .choice-btn.wrong   { background: rgba(248,113,113,0.10); border-color: #f87171; color: #f87171; }
-    .choice-btn.dim     { opacity: 0.28; }
+    .tf-true  { border-color: rgba(74,222,128,0.45);  color: #4ade80; }
+    .tf-false { border-color: rgba(248,113,113,0.45); color: #f87171; }
 
-    .choice-num {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 21px;
-      height: 21px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      font-size: 0.7rem;
-      font-weight: bold;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .choice-btn.correct .choice-num { background: rgba(74,222,128,0.22); }
-    .choice-btn.wrong   .choice-num { background: rgba(248,113,113,0.22); }
+    .tf-true:hover:not(:disabled)  { background: rgba(74,222,128,0.1); }
+    .tf-false:hover:not(:disabled) { background: rgba(248,113,113,0.1); }
 
     /* ── 解説 */
     .explanation {
@@ -291,7 +268,7 @@
       color: #ff7090;
     }
 
-    /* カウンター（参考サイトへの目配せ） */
+    /* カウンター */
     .counter {
       text-align: center;
       margin-top: 1.2rem;
@@ -419,7 +396,7 @@
       color: #ff7090;
     }
 
-    /* ── フッター */
+    /* フッター */
     .footer-deco {
       padding: 1.5rem 0 2rem;
       font-size: 0.7rem;
@@ -427,7 +404,7 @@
       color: rgba(233,69,96,0.25);
     }
 
-    /* ── アニメーション */
+    /* アニメーション */
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -448,12 +425,11 @@
     .anim-shake { animation: shake  0.35s ease; }
     .anim-pop   { animation: pop    0.3s ease; }
 
-    /* ── レスポンシブ */
     @media (max-width: 480px) {
-      .choices { grid-template-columns: 1fr; }
-      .header h1 { font-size: 1.5rem; }
-      .result-pct { font-size: 4rem; }
+      .header h1   { font-size: 1.5rem; }
+      .tf-btn      { font-size: 2.2rem; padding: 1rem; }
       .question-card { padding: 1.4rem 1.2rem 1.2rem; }
+      .result-pct  { font-size: 4rem; }
     }
   </style>
 </head>
@@ -503,7 +479,10 @@
       <p class="question-text" id="questionText">読み込み中…</p>
     </div>
 
-    <div class="choices" id="choicesContainer"></div>
+    <div class="tf-btns">
+      <button class="tf-btn tf-true"  id="btnTrue"  onclick="selectAnswer(true)">〇</button>
+      <button class="tf-btn tf-false" id="btnFalse" onclick="selectAnswer(false)">×</button>
+    </div>
 
     <div class="explanation" id="explanation">
       <span class="ex-label">解 説</span>
@@ -528,10 +507,10 @@
 
 <div class="result-screen" id="resultScreen">
   <div class="result-card">
-    <div class="result-emoji"  id="resultEmoji"></div>
+    <div class="result-emoji"   id="resultEmoji"></div>
     <div class="result-title">ク イ ズ 終 了</div>
-    <div class="result-pct"   id="resultPct"></div>
-    <div class="result-detail" id="resultDetail"></div>
+    <div class="result-pct"    id="resultPct"></div>
+    <div class="result-detail"  id="resultDetail"></div>
     <div class="result-score-row">
       <div class="result-score-card c">
         <span class="rs-label">正 解</span>
@@ -551,126 +530,109 @@
 <p class="footer-deco">✦ &nbsp; ✦ &nbsp; ✦</p>
 
 <script>
+// isTrue: true = 本当の雑学、false = 嘘の雑学
 const quizData = [
+  // ── 本当の雑学 ──────────────────────────────────
   {
-    q: "タコの心臓は何個ある？",
-    choices: ["1個", "2個", "3個", "5個"],
-    answer: 2, cat: "生き物",
-    ex: "タコは「えら心臓」が2つと「体心臓」が1つ、合計3つの心臓を持っています。えら心臓が血液をえらへ送り、体心臓が全身へ循環させます。"
+    q: "タコには心臓が3つある。",
+    isTrue: true, cat: "生き物",
+    ex: "えら心臓が2つ＋体心臓が1つで合計3つです。えら心臓が血液をえらへ送り、体心臓が全身に循環させます。"
   },
   {
-    q: "「金魚の記憶は3秒しかない」は本当？",
-    choices: ["本当。実際3秒程度", "嘘。数分は続く", "嘘。数ヶ月以上続く", "本当。最長でも10秒"],
-    answer: 2, cat: "生き物",
-    ex: "金魚の記憶は数ヶ月間持続することが研究で証明されています。餌のある場所を記憶したり、条件反射的な学習もできます。「3秒」は都市伝説です。"
+    q: "富士山の標高は3,776mである。",
+    isTrue: true, cat: "日本",
+    ex: "日本最高峰で標高3,776m。最後の噴火は1707年の宝永大噴火で、そのとき山腹に宝永火口が形成されました。"
   },
   {
-    q: "人間の体で最も硬い組織はどれ？",
-    choices: ["骨", "歯のエナメル質", "爪", "靭帯"],
-    answer: 1, cat: "人体",
-    ex: "歯のエナメル質は人体で最も硬い組織です。モース硬度は約7で骨（約5〜6）より硬く、水晶と同程度の硬さを持ちます。"
+    q: "成人の人間の骨の数は約206本である。",
+    isTrue: true, cat: "人体",
+    ex: "赤ちゃんは約300本以上ありますが、成長とともに骨が融合して成人では約206本になります。"
   },
   {
-    q: "ナポレオンの実際の身長は？",
-    choices: ["約152cm（非常に低い）", "約160cm（やや低め）", "約169cm（平均以上）", "約180cm（長身）"],
-    answer: 2, cat: "歴史",
-    ex: "ナポレオンは約169cmで、当時のフランス人男性平均（約165cm）より高かったです。「低い」という印象はイギリスのプロパガンダと単位換算ミスが原因とされています。"
+    q: "人間の脳は体重の約2%しかないが、全身エネルギーの約20%を消費する。",
+    isTrue: true, cat: "人体",
+    ex: "脳はサイズのわりに非常にエネルギー消費が大きい器官です。常に膨大な情報処理を行っているためです。"
   },
   {
-    q: "成人の人間の骨は何本？",
-    choices: ["106本", "206本", "306本", "506本"],
-    answer: 1, cat: "人体",
-    ex: "成人の骨は約206本です。赤ちゃんは約300本以上ありますが、成長とともに骨が融合して数が減っていきます。"
+    q: "蜂蜜は適切に密封保存すれば何千年経っても腐らない。",
+    isTrue: true, cat: "食べ物",
+    ex: "エジプトの王墓から約3300年前の蜂蜜が食べられる状態で発見されています。高糖度・低水分で細菌が繁殖できないためです。"
   },
   {
-    q: "地球史上最大の動物は？",
-    choices: ["ジンベイザメ", "アフリカゾウ", "シロナガスクジラ", "ダイオウイカ"],
-    answer: 2, cat: "生き物",
-    ex: "シロナガスクジラは体長最大約33m・体重約180tに達し、地球史上最大の動物です。心臓だけで自動車ほどの大きさがあります。"
+    q: "サメが地球上に登場したのは、恐竜より3億年以上前のことだ。",
+    isTrue: true, cat: "生き物",
+    ex: "サメは約4億5000万年前（オルドビス紀）に出現。恐竜の出現は約2億3000万年前なので、サメはそれより約2億2000万年古い生き物です。"
   },
   {
-    q: "富士山の標高は？",
-    choices: ["3,376m", "3,776m", "4,076m", "4,376m"],
-    answer: 1, cat: "日本",
-    ex: "富士山の標高は3,776mで日本最高峰です。最後の噴火は1707年（宝永大噴火）で、その際に山腹に宝永火口が形成されました。"
+    q: "アリは自分の体重の約50倍の重さを運ぶことができる。",
+    isTrue: true, cat: "生き物",
+    ex: "体が小さいほど体積に対する筋肉断面積の割合が大きくなるため、相対的に大きな力を発揮できます。種類によっては50倍以上の記録もあります。"
   },
   {
-    q: "日本で最も深い湖は？",
-    choices: ["琵琶湖", "摩周湖", "田沢湖", "洞爺湖"],
-    answer: 2, cat: "日本",
-    ex: "田沢湖（秋田県）は最大水深423.4mで日本一深い湖です。面積は琵琶湖より小さいですが、透明度が非常に高い美しい湖です。"
+    q: "日本の国鳥はキジである。",
+    isTrue: true, cat: "日本",
+    ex: "1947年に日本鳥学会が選定しました。桃太郎にも登場するなど日本人に古くから親しまれており、１万円札の裏にも描かれています。"
   },
   {
-    q: "人間の脳は全身エネルギーの何%を消費する？",
-    choices: ["約5%", "約10%", "約20%", "約40%"],
-    answer: 2, cat: "人体",
-    ex: "脳は体重の約2%しかないにもかかわらず、全身エネルギーの約20%を消費します。それだけ膨大な情報処理を行っているためです。"
+    q: "人体の血管をすべてつなげると、地球を2周以上できる長さになる。",
+    isTrue: true, cat: "人体",
+    ex: "毛細血管を含む総延長は約10万km。地球一周が約4万kmなので、約2.5周分の長さになります。"
   },
   {
-    q: "稲妻が見えて1秒後に雷鳴が聞こえた。雷は約何m先？",
-    choices: ["約34m", "約340m", "約3,400m", "約34,000m"],
-    answer: 1, cat: "科学",
-    ex: "音の速さは約340m/秒なので、1秒差なら約340m先です。光はほぼ瞬時に届くため、稲妻〜雷鳴の時間差で距離を計算できます。"
+    q: "眠っている犬が夢を見ることは科学的に確認されている。",
+    isTrue: true, cat: "生き物",
+    ex: "MITの研究で、犬はREM睡眠中に日中の出来事を夢として再体験していることが確認されています。寝ている犬の足が動くのはそのためです。"
+  },
+  // ── 嘘の雑学 ──────────────────────────────────
+  {
+    q: "金魚の記憶はわずか3秒しか持続しない。",
+    isTrue: false, cat: "生き物",
+    ex: "都市伝説です。金魚の記憶は数ヶ月間持続することが研究で証明されています。餌のある場所を記憶し、条件反射的な学習もできます。"
   },
   {
-    q: "サメが地球上に登場したのは約何年前？",
-    choices: ["約1,500万年前", "約5,000万年前", "約2億年前", "約4億5,000万年前"],
-    answer: 3, cat: "生き物",
-    ex: "サメは約4億5,000万年前（オルドビス紀）に出現した古代魚です。恐竜より3億年以上古く、ほぼ姿を変えずに現代まで生き残っています。"
+    q: "万里の長城は宇宙から肉眼で見える。",
+    isTrue: false, cat: "歴史",
+    ex: "幅5〜8mほどの長城は細すぎて宇宙からは見えません。中国の宇宙飛行士・楊利偉氏も「見えなかった」と証言しています。"
   },
   {
-    q: "アリは自分の体重の何倍の重さを運べる？",
-    choices: ["約3倍", "約10倍", "約50倍", "約200倍"],
-    answer: 2, cat: "生き物",
-    ex: "アリは種類によって体重の10〜50倍もの重さを運べます。体が小さいほど体積に対する筋肉断面積の割合が大きく、相対的に大きな力を発揮できます。"
+    q: "ナポレオンの身長は当時のフランス人男性平均より20cm以上低かった。",
+    isTrue: false, cat: "歴史",
+    ex: "ナポレオンは約169cmで、当時の平均（約165cm）より高かったです。「低い」という印象はイギリスのプロパガンダと単位換算ミスが原因とされています。"
   },
   {
-    q: "日本の国鳥は？",
-    choices: ["鶴（ツル）", "雀（スズメ）", "キジ", "鷹（タカ）"],
-    answer: 2, cat: "日本",
-    ex: "日本の国鳥はキジです。1947年に日本鳥学会が選定しました。桃太郎にも登場するなど、古くから日本人に親しまれてきた鳥です。"
+    q: "コウモリは目が見えないため、エコーロケーションだけを頼りに行動する。",
+    isTrue: false, cat: "生き物",
+    ex: "コウモリは目が見えないわけではありません。多くの種は視覚も持っており、エコーロケーションは暗闇での補助的なナビゲーション手段です。"
   },
   {
-    q: "カメレオンが体色を変える主な理由は？",
-    choices: ["天敵から身を隠すため", "獲物に近づくため", "感情表現・体温調節のため", "光合成を助けるため"],
-    answer: 2, cat: "生き物",
-    ex: "カメレオンが色を変える主な目的はコミュニケーションや体温調節です。「カモフラージュが主目的」というのは誤解で、皮膚内のナノ結晶が光の反射を変えることで色が変わります。"
+    q: "チョコレートは犬には有毒だが、猫には無害である。",
+    isTrue: false, cat: "生き物",
+    ex: "チョコレートのテオブロミンは猫にも有毒です。ただし猫は甘味を感じる受容体がないため自発的に食べたがらず、中毒例が犬より少ないだけです。"
   },
   {
-    q: "人体の血管をすべてつなげると地球を何周する？",
-    choices: ["約0.5周", "約2.5周", "約25周", "約250周"],
-    answer: 1, cat: "人体",
-    ex: "毛細血管を含む人体の血管の総延長は約10万kmです。地球一周が約4万kmなので、地球を約2.5周する計算になります。"
+    q: "ペンギンは南極と北極の両方に生息している。",
+    isTrue: false, cat: "生き物",
+    ex: "ペンギンはすべての種が南半球にのみ生息しています。北極にペンギンは存在せず、似た生態を持つオオウミガラス（現在は絶滅）が代わりにいました。"
   },
   {
-    q: "蜂蜜が数千年経っても腐らない最大の理由は？",
-    choices: ["ミツバチの酵素が殺菌するから", "高糖度・低水分で細菌が繁殖できないから", "蜂の毒で保存されているから", "酸素と反応して固化するから"],
-    answer: 1, cat: "食べ物",
-    ex: "蜂蜜が腐らない主な理由は高糖度（約80%）と極めて低い水分（約17〜20%）です。この環境では細菌が繁殖できず、エジプトの王墓から3000年以上前の蜂蜜が食べられる状態で発見されました。"
+    q: "カメレオンが体色を変えるのは、主に天敵から身を守るカモフラージュのためだ。",
+    isTrue: false, cat: "生き物",
+    ex: "カメレオンの体色変化の主な目的はコミュニケーションと体温調節です。皮膚内のナノ結晶が光の反射を変えることで色が変わります。"
   },
   {
-    q: "光が地球を一周するのにかかる時間は？",
-    choices: ["約0.01秒", "約0.13秒", "約1.3秒", "約13秒"],
-    answer: 1, cat: "科学",
-    ex: "光の速さは約30万km/秒、地球一周は約4万kmなので1周は約0.133秒（133ミリ秒）です。1秒間で地球を約7.5周できる計算になります。"
+    q: "人間は死後も髪の毛と爪が伸び続ける。",
+    isTrue: false, cat: "人体",
+    ex: "死後は細胞分裂が止まるため伸びません。死後に皮膚が乾燥・収縮することで爪や髪が相対的に長く見えるだけです。"
   },
   {
-    q: "万里の長城の全長（2012年中国公式調査）は？",
-    choices: ["約2,700km", "約8,800km", "約21,196km", "約35,000km"],
-    answer: 2, cat: "歴史",
-    ex: "中国の2012年公式調査によると万里の長城の全長は約21,196kmです。幅が非常に狭いため、宇宙から肉眼では見えません。"
+    q: "光が地球を一周するのにかかる時間は約1秒である。",
+    isTrue: false, cat: "科学",
+    ex: "光の速さは約30万km/秒、地球一周は約4万kmなので、1周は約0.13秒（133ミリ秒）です。1秒間で地球を約7.5周できます。"
   },
   {
-    q: "国際宇宙ステーション（ISS）の軌道高度は約何km？",
-    choices: ["約40km", "約400km", "約4,000km", "約40,000km"],
-    answer: 1, cat: "科学",
-    ex: "ISSは地上約400kmの軌道を周回しています。時速約27,700kmで飛行し、約90分で地球を1周します。"
-  },
-  {
-    q: "眠っている犬が足や口をピクピク動かす理由は？",
-    choices: ["夢を見ているから", "体温調節のため", "外部の音に反応しているから", "神経の誤作動"],
-    answer: 0, cat: "生き物",
-    ex: "MITの研究により、犬はREM睡眠中に日中の出来事を夢として体験していることが確認されています。足が動くのは夢の中で走っているためです。"
+    q: "ガラスは非常にゆっくりと流れ続ける液体であり、古い窓ガラスの下が厚いのはそのためだ。",
+    isTrue: false, cat: "科学",
+    ex: "ガラスは常温で完全な固体です。古い窓ガラスの下が厚いのは、当時の製造技術の限界で厚い側を安定のため下にして設置したからです。"
   },
 ];
 
@@ -698,63 +660,46 @@ function loadQuestion() {
   answered = false;
   const q = shuffled[currentIdx];
 
-  document.getElementById('badgeNum').textContent  = `第 ${currentIdx + 1} 問`;
-  document.getElementById('badgeCat').textContent  = q.cat;
+  document.getElementById('badgeNum').textContent     = `第 ${currentIdx + 1} 問`;
+  document.getElementById('badgeCat').textContent     = q.cat;
   document.getElementById('questionText').textContent = q.q;
 
-  // 選択肢
-  const cc = document.getElementById('choicesContainer');
-  cc.innerHTML = '';
-  ['①','②','③','④'].forEach((lbl, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'choice-btn';
-    btn.innerHTML = `<span class="choice-num">${lbl}</span>${q.choices[i]}`;
-    btn.onclick = () => selectAnswer(i);
-    cc.appendChild(btn);
-  });
-
-  // リセット
+  document.getElementById('btnTrue').disabled  = false;
+  document.getElementById('btnFalse').disabled = false;
   document.getElementById('explanation').classList.remove('show');
   document.getElementById('btnNext').classList.remove('show');
   const ov = document.getElementById('feedbackOverlay');
   ov.className = 'feedback-overlay';
 
-  // 進捗
   const pct = Math.round((currentIdx / shuffled.length) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('progressText').textContent = `問題 ${currentIdx + 1} / ${shuffled.length}`;
   document.getElementById('progressPct').textContent  = pct + '%';
 
-  // カードアニメーション
   const card = document.getElementById('questionCard');
   card.classList.remove('anim-slide', 'anim-shake', 'anim-pop');
   void card.offsetWidth;
   card.classList.add('anim-slide');
 }
 
-function selectAnswer(idx) {
+function selectAnswer(userSaysTrue) {
   if (answered) return;
   answered = true;
 
   const q = shuffled[currentIdx];
-  const correct = idx === q.answer;
+  const correct = userSaysTrue === q.isTrue;
 
   if (correct) score++; else wrong++;
   updateStats();
 
-  // ボタンのスタイル
-  document.querySelectorAll('.choice-btn').forEach((btn, i) => {
-    btn.disabled = true;
-    if      (i === q.answer)        btn.classList.add('correct');
-    else if (i === idx && !correct) btn.classList.add('wrong');
-    else                            btn.classList.add('dim');
-  });
+  document.getElementById('btnTrue').disabled  = true;
+  document.getElementById('btnFalse').disabled = true;
 
   // フィードバックオーバーレイ
   const ov = document.getElementById('feedbackOverlay');
   document.getElementById('fbIcon').textContent  = correct ? '⭕' : '❌';
   document.getElementById('fbText').textContent  = correct ? '正解！' : '不正解…';
-  document.getElementById('fbTruth').textContent = `答えは「${q.choices[q.answer]}」でした`;
+  document.getElementById('fbTruth').textContent = q.isTrue ? '本当の雑学でした' : '嘘の雑学でした';
   ov.classList.add(correct ? 'correct' : 'wrong', 'show');
 
   // カードアニメーション
@@ -795,8 +740,7 @@ function updateStats() {
 
 function showResult() {
   document.getElementById('gameArea').style.display = 'none';
-  const rs = document.getElementById('resultScreen');
-  rs.classList.add('show');
+  document.getElementById('resultScreen').classList.add('show');
 
   const total = shuffled.length;
   const pct   = Math.round((score / total) * 100);
@@ -807,7 +751,7 @@ function showResult() {
   document.getElementById('rWrong').textContent       = wrong;
 
   let emoji, msg;
-  if      (pct >= 90) { emoji = '🏆'; msg = '素晴らしい！雑学マスターですね。ほぼすべての問題を制覇しました。'; }
+  if      (pct >= 90) { emoji = '🏆'; msg = '素晴らしい！雑学マスターですね。ほぼすべての雑学を見破りました。'; }
   else if (pct >= 70) { emoji = '🎉'; msg = 'よくできました！雑学センスがありますね。あと少しで完璧です。'; }
   else if (pct >= 50) { emoji = '😊'; msg = 'まずまずの結果！半分以上正解できました。さらに上を目指して。'; }
   else if (pct >= 30) { emoji = '🤔'; msg = '雑学の奥深さを実感しましたか？もう一度チャレンジしてみましょう！'; }

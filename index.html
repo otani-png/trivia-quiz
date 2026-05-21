@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雑学クイズ</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic Pro', 'メイリオ', 'Yu Gothic', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+    }
+
+    /* ── 細い上部アクセントライン（参考サイトへの目配せ） */
+    .top-line {
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #e94560, #9b59b6, #f5a623);
+      flex-shrink: 0;
+    }
+
+    /* ── メインコンテナ */
+    .container {
+      max-width: 640px;
+      width: 90%;
+      padding: 2.5rem 0 2rem;
+      flex: 1;
+    }
+
+    /* ── ヘッダー */
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      letter-spacing: 0.3em;
+      text-indent: 0.3em;
+      background: linear-gradient(90deg, #e94560, #f5a623);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.4rem;
+    }
+
+    .header p {
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      color: #8899aa;
+    }
+
+    /* ── プログレスバー */
+    .progress-section { margin-bottom: 1.4rem; }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: #8899aa;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar {
+      height: 5px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #e94560, #f5a623);
+      border-radius: 3px;
+      transition: width 0.45s ease;
+    }
+
+    /* ── スコア表示 */
+    .score-display {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .score-card {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 12px;
+      padding: 0.85rem 0.5rem;
+      text-align: center;
+    }
+
+    .score-card .label {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      color: #8899aa;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    .score-card .value { font-size: 1.6rem; font-weight: bold; }
+    .score-card.accuracy .value {
+      background: linear-gradient(90deg, #e94560, #f5a623);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .score-card.correct .value { color: #4ade80; }
+    .score-card.wrong   .value { color: #f87171; }
+
+    /* ── 問題カード */
+    .question-card {
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 20px;
+      padding: 1.8rem 2rem 1.6rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    /* バッジ行（参考サイトへの目配せ） */
+    .badge-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .badge {
+      padding: 3px 10px;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      border: 1px solid;
+      border-radius: 2px;
+    }
+
+    .badge-num { border-color: rgba(233,69,96,0.5); color: #e94560; }
+    .badge-cat { border-color: rgba(245,166,35,0.45); color: #f5a623; }
+
+    /* 問題テキスト（左ボーダーのquote-box風） */
+    .quote-box {
+      border-left: 2px solid #e94560;
+      padding: 0.9rem 1rem 0.9rem 1.2rem;
+      background: linear-gradient(to right, rgba(233,69,96,0.06), transparent);
+      margin-bottom: 1.6rem;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+    }
+
+    .question-text {
+      font-size: 1.12rem;
+      line-height: 1.85;
+      letter-spacing: 0.03em;
+    }
+
+    /* 正誤フィードバックオーバーレイ */
+    .feedback-overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .feedback-overlay.show { opacity: 1; }
+    .feedback-overlay.correct { background: rgba(74,222,128,0.18); border: 2px solid #4ade80; border-radius: 20px; }
+    .feedback-overlay.wrong   { background: rgba(248,113,113,0.15); border: 2px solid #f87171; border-radius: 20px; }
+
+    .feedback-icon { font-size: 2.8rem; margin-bottom: 0.3rem; }
+    .feedback-text { font-size: 1.1rem; font-weight: bold; }
+    .feedback-truth {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.65);
+      margin-top: 0.3rem;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── 4択ボタン */
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .choice-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      padding: 0.85rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 11px;
+      color: #cdd6e0;
+      font-size: 0.88rem;
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+    }
+
+    .choice-btn:hover:not(:disabled) {
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.22);
+      transform: translateY(-2px);
+    }
+
+    .choice-btn:disabled { cursor: not-allowed; }
+
+    .choice-btn.correct { background: rgba(74,222,128,0.13); border-color: #4ade80; color: #4ade80; }
+    .choice-btn.wrong   { background: rgba(248,113,113,0.10); border-color: #f87171; color: #f87171; }
+    .choice-btn.dim     { opacity: 0.28; }
+
+    .choice-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      font-size: 0.7rem;
+      font-weight: bold;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .choice-btn.correct .choice-num { background: rgba(74,222,128,0.22); }
+    .choice-btn.wrong   .choice-num { background: rgba(248,113,113,0.22); }
+
+    /* ── 解説 */
+    .explanation {
+      background: rgba(245,166,35,0.07);
+      border: 1px solid rgba(245,166,35,0.18);
+      border-radius: 11px;
+      padding: 0.9rem 1.1rem;
+      font-size: 0.84rem;
+      line-height: 1.8;
+      color: #b8ccd8;
+      display: none;
+      margin-bottom: 1rem;
+    }
+
+    .explanation.show { display: block; }
+
+    .explanation .ex-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      color: #f5a623;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── 次へボタン */
+    .btn-next {
+      width: 100%;
+      padding: 0.9rem;
+      border: 1px solid rgba(233,69,96,0.5);
+      background: transparent;
+      color: #e94560;
+      font-family: inherit;
+      font-size: 0.88rem;
+      letter-spacing: 0.3em;
+      cursor: pointer;
+      border-radius: 11px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      display: none;
+    }
+
+    .btn-next.show { display: block; }
+
+    .btn-next:hover {
+      background: rgba(233,69,96,0.13);
+      border-color: #e94560;
+      color: #ff7090;
+    }
+
+    /* カウンター（参考サイトへの目配せ） */
+    .counter {
+      text-align: center;
+      margin-top: 1.2rem;
+      line-height: 1;
+    }
+
+    .counter .c-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      color: #8899aa;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .counter .c-num {
+      font-size: 1rem;
+      color: #f5a623;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── 結果画面 */
+    .result-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 90%;
+      max-width: 640px;
+      padding: 2rem 0 3rem;
+    }
+
+    .result-screen.show { display: flex; }
+
+    .result-card {
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      width: 100%;
+      animation: slideUp 0.5s ease;
+    }
+
+    .result-emoji { font-size: 3.5rem; margin-bottom: 0.8rem; }
+
+    .result-title {
+      font-size: 1.2rem;
+      letter-spacing: 0.3em;
+      text-indent: 0.3em;
+      margin-bottom: 1rem;
+      color: #ddeeff;
+    }
+
+    .result-pct {
+      font-size: 5rem;
+      font-weight: bold;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, #e94560, #f5a623);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .result-detail {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      color: #8899aa;
+      margin-bottom: 1.8rem;
+    }
+
+    .result-score-row {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 1.6rem;
+    }
+
+    .result-score-card {
+      flex: 1;
+      max-width: 120px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 1rem 0.5rem;
+    }
+
+    .result-score-card .rs-label { font-size: 0.62rem; letter-spacing: 0.22em; color: #8899aa; margin-bottom: 0.4rem; display: block; }
+    .result-score-card .rs-val   { font-size: 1.8rem; font-weight: bold; }
+    .result-score-card.c .rs-val { color: #4ade80; }
+    .result-score-card.w .rs-val { color: #f87171; }
+
+    .result-divider {
+      width: 40px;
+      height: 1px;
+      background: rgba(233,69,96,0.4);
+      margin: 0 auto 1.4rem;
+    }
+
+    .result-msg {
+      font-size: 0.88rem;
+      line-height: 1.85;
+      color: #aabbcc;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.8rem;
+    }
+
+    .btn-retry {
+      width: 100%;
+      padding: 0.9rem;
+      border: 1px solid rgba(233,69,96,0.5);
+      background: transparent;
+      color: #e94560;
+      font-family: inherit;
+      font-size: 0.88rem;
+      letter-spacing: 0.3em;
+      cursor: pointer;
+      border-radius: 11px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-retry:hover {
+      background: rgba(233,69,96,0.13);
+      color: #ff7090;
+    }
+
+    /* ── フッター */
+    .footer-deco {
+      padding: 1.5rem 0 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.5em;
+      color: rgba(233,69,96,0.25);
+    }
+
+    /* ── アニメーション */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-7px); }
+      75%      { transform: translateX(7px); }
+    }
+
+    @keyframes pop {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.03); }
+    }
+
+    .anim-slide { animation: slideUp 0.4s ease; }
+    .anim-shake { animation: shake  0.35s ease; }
+    .anim-pop   { animation: pop    0.3s ease; }
+
+    /* ── レスポンシブ */
+    @media (max-width: 480px) {
+      .choices { grid-template-columns: 1fr; }
+      .header h1 { font-size: 1.5rem; }
+      .result-pct { font-size: 4rem; }
+      .question-card { padding: 1.4rem 1.2rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-line"></div>
+
+<div class="container" id="gameArea">
+
+  <div class="header">
+    <h1>雑 学 ク イ ズ</h1>
+    <p>本当か嘘か、知識で見破れ</p>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-info">
+      <span id="progressText">問題 1 / 20</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="score-display">
+    <div class="score-card accuracy">
+      <span class="label">正 解 率</span>
+      <span class="value" id="accuracyVal">－</span>
+    </div>
+    <div class="score-card correct">
+      <span class="label">正 解</span>
+      <span class="value" id="correctVal">0</span>
+    </div>
+    <div class="score-card wrong">
+      <span class="label">不 正 解</span>
+      <span class="value" id="wrongVal">0</span>
+    </div>
+  </div>
+
+  <div class="question-card anim-slide" id="questionCard">
+    <div class="badge-row">
+      <span class="badge badge-num" id="badgeNum">第 1 問</span>
+      <span class="badge badge-cat" id="badgeCat">生き物</span>
+    </div>
+
+    <div class="quote-box">
+      <p class="question-text" id="questionText">読み込み中…</p>
+    </div>
+
+    <div class="choices" id="choicesContainer"></div>
+
+    <div class="explanation" id="explanation">
+      <span class="ex-label">解 説</span>
+      <span id="explanationText"></span>
+    </div>
+
+    <button class="btn-next" id="btnNext" onclick="nextQuestion()">▷ &nbsp; 次の問題へ</button>
+
+    <div class="counter">
+      <span class="c-label">汝 の 正 解</span>
+      <span class="c-num" id="myScore">0</span>
+    </div>
+
+    <div class="feedback-overlay" id="feedbackOverlay">
+      <div class="feedback-icon"  id="fbIcon"></div>
+      <div class="feedback-text"  id="fbText"></div>
+      <div class="feedback-truth" id="fbTruth"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="result-screen" id="resultScreen">
+  <div class="result-card">
+    <div class="result-emoji"  id="resultEmoji"></div>
+    <div class="result-title">ク イ ズ 終 了</div>
+    <div class="result-pct"   id="resultPct"></div>
+    <div class="result-detail" id="resultDetail"></div>
+    <div class="result-score-row">
+      <div class="result-score-card c">
+        <span class="rs-label">正 解</span>
+        <span class="rs-val" id="rCorrect"></span>
+      </div>
+      <div class="result-score-card w">
+        <span class="rs-label">不 正 解</span>
+        <span class="rs-val" id="rWrong"></span>
+      </div>
+    </div>
+    <div class="result-divider"></div>
+    <div class="result-msg" id="resultMsg"></div>
+    <button class="btn-retry" onclick="restart()">▷ &nbsp; もう一度挑戦</button>
+  </div>
+</div>
+
+<p class="footer-deco">✦ &nbsp; ✦ &nbsp; ✦</p>
+
+<script>
+const quizData = [
+  {
+    q: "タコの心臓は何個ある？",
+    choices: ["1個", "2個", "3個", "5個"],
+    answer: 2, cat: "生き物",
+    ex: "タコは「えら心臓」が2つと「体心臓」が1つ、合計3つの心臓を持っています。えら心臓が血液をえらへ送り、体心臓が全身へ循環させます。"
+  },
+  {
+    q: "「金魚の記憶は3秒しかない」は本当？",
+    choices: ["本当。実際3秒程度", "嘘。数分は続く", "嘘。数ヶ月以上続く", "本当。最長でも10秒"],
+    answer: 2, cat: "生き物",
+    ex: "金魚の記憶は数ヶ月間持続することが研究で証明されています。餌のある場所を記憶したり、条件反射的な学習もできます。「3秒」は都市伝説です。"
+  },
+  {
+    q: "人間の体で最も硬い組織はどれ？",
+    choices: ["骨", "歯のエナメル質", "爪", "靭帯"],
+    answer: 1, cat: "人体",
+    ex: "歯のエナメル質は人体で最も硬い組織です。モース硬度は約7で骨（約5〜6）より硬く、水晶と同程度の硬さを持ちます。"
+  },
+  {
+    q: "ナポレオンの実際の身長は？",
+    choices: ["約152cm（非常に低い）", "約160cm（やや低め）", "約169cm（平均以上）", "約180cm（長身）"],
+    answer: 2, cat: "歴史",
+    ex: "ナポレオンは約169cmで、当時のフランス人男性平均（約165cm）より高かったです。「低い」という印象はイギリスのプロパガンダと単位換算ミスが原因とされています。"
+  },
+  {
+    q: "成人の人間の骨は何本？",
+    choices: ["106本", "206本", "306本", "506本"],
+    answer: 1, cat: "人体",
+    ex: "成人の骨は約206本です。赤ちゃんは約300本以上ありますが、成長とともに骨が融合して数が減っていきます。"
+  },
+  {
+    q: "地球史上最大の動物は？",
+    choices: ["ジンベイザメ", "アフリカゾウ", "シロナガスクジラ", "ダイオウイカ"],
+    answer: 2, cat: "生き物",
+    ex: "シロナガスクジラは体長最大約33m・体重約180tに達し、地球史上最大の動物です。心臓だけで自動車ほどの大きさがあります。"
+  },
+  {
+    q: "富士山の標高は？",
+    choices: ["3,376m", "3,776m", "4,076m", "4,376m"],
+    answer: 1, cat: "日本",
+    ex: "富士山の標高は3,776mで日本最高峰です。最後の噴火は1707年（宝永大噴火）で、その際に山腹に宝永火口が形成されました。"
+  },
+  {
+    q: "日本で最も深い湖は？",
+    choices: ["琵琶湖", "摩周湖", "田沢湖", "洞爺湖"],
+    answer: 2, cat: "日本",
+    ex: "田沢湖（秋田県）は最大水深423.4mで日本一深い湖です。面積は琵琶湖より小さいですが、透明度が非常に高い美しい湖です。"
+  },
+  {
+    q: "人間の脳は全身エネルギーの何%を消費する？",
+    choices: ["約5%", "約10%", "約20%", "約40%"],
+    answer: 2, cat: "人体",
+    ex: "脳は体重の約2%しかないにもかかわらず、全身エネルギーの約20%を消費します。それだけ膨大な情報処理を行っているためです。"
+  },
+  {
+    q: "稲妻が見えて1秒後に雷鳴が聞こえた。雷は約何m先？",
+    choices: ["約34m", "約340m", "約3,400m", "約34,000m"],
+    answer: 1, cat: "科学",
+    ex: "音の速さは約340m/秒なので、1秒差なら約340m先です。光はほぼ瞬時に届くため、稲妻〜雷鳴の時間差で距離を計算できます。"
+  },
+  {
+    q: "サメが地球上に登場したのは約何年前？",
+    choices: ["約1,500万年前", "約5,000万年前", "約2億年前", "約4億5,000万年前"],
+    answer: 3, cat: "生き物",
+    ex: "サメは約4億5,000万年前（オルドビス紀）に出現した古代魚です。恐竜より3億年以上古く、ほぼ姿を変えずに現代まで生き残っています。"
+  },
+  {
+    q: "アリは自分の体重の何倍の重さを運べる？",
+    choices: ["約3倍", "約10倍", "約50倍", "約200倍"],
+    answer: 2, cat: "生き物",
+    ex: "アリは種類によって体重の10〜50倍もの重さを運べます。体が小さいほど体積に対する筋肉断面積の割合が大きく、相対的に大きな力を発揮できます。"
+  },
+  {
+    q: "日本の国鳥は？",
+    choices: ["鶴（ツル）", "雀（スズメ）", "キジ", "鷹（タカ）"],
+    answer: 2, cat: "日本",
+    ex: "日本の国鳥はキジです。1947年に日本鳥学会が選定しました。桃太郎にも登場するなど、古くから日本人に親しまれてきた鳥です。"
+  },
+  {
+    q: "カメレオンが体色を変える主な理由は？",
+    choices: ["天敵から身を隠すため", "獲物に近づくため", "感情表現・体温調節のため", "光合成を助けるため"],
+    answer: 2, cat: "生き物",
+    ex: "カメレオンが色を変える主な目的はコミュニケーションや体温調節です。「カモフラージュが主目的」というのは誤解で、皮膚内のナノ結晶が光の反射を変えることで色が変わります。"
+  },
+  {
+    q: "人体の血管をすべてつなげると地球を何周する？",
+    choices: ["約0.5周", "約2.5周", "約25周", "約250周"],
+    answer: 1, cat: "人体",
+    ex: "毛細血管を含む人体の血管の総延長は約10万kmです。地球一周が約4万kmなので、地球を約2.5周する計算になります。"
+  },
+  {
+    q: "蜂蜜が数千年経っても腐らない最大の理由は？",
+    choices: ["ミツバチの酵素が殺菌するから", "高糖度・低水分で細菌が繁殖できないから", "蜂の毒で保存されているから", "酸素と反応して固化するから"],
+    answer: 1, cat: "食べ物",
+    ex: "蜂蜜が腐らない主な理由は高糖度（約80%）と極めて低い水分（約17〜20%）です。この環境では細菌が繁殖できず、エジプトの王墓から3000年以上前の蜂蜜が食べられる状態で発見されました。"
+  },
+  {
+    q: "光が地球を一周するのにかかる時間は？",
+    choices: ["約0.01秒", "約0.13秒", "約1.3秒", "約13秒"],
+    answer: 1, cat: "科学",
+    ex: "光の速さは約30万km/秒、地球一周は約4万kmなので1周は約0.133秒（133ミリ秒）です。1秒間で地球を約7.5周できる計算になります。"
+  },
+  {
+    q: "万里の長城の全長（2012年中国公式調査）は？",
+    choices: ["約2,700km", "約8,800km", "約21,196km", "約35,000km"],
+    answer: 2, cat: "歴史",
+    ex: "中国の2012年公式調査によると万里の長城の全長は約21,196kmです。幅が非常に狭いため、宇宙から肉眼では見えません。"
+  },
+  {
+    q: "国際宇宙ステーション（ISS）の軌道高度は約何km？",
+    choices: ["約40km", "約400km", "約4,000km", "約40,000km"],
+    answer: 1, cat: "科学",
+    ex: "ISSは地上約400kmの軌道を周回しています。時速約27,700kmで飛行し、約90分で地球を1周します。"
+  },
+  {
+    q: "眠っている犬が足や口をピクピク動かす理由は？",
+    choices: ["夢を見ているから", "体温調節のため", "外部の音に反応しているから", "神経の誤作動"],
+    answer: 0, cat: "生き物",
+    ex: "MITの研究により、犬はREM睡眠中に日中の出来事を夢として体験していることが確認されています。足が動くのは夢の中で走っているためです。"
+  },
+];
+
+let shuffled = [], currentIdx = 0, score = 0, wrong = 0, answered = false;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function init() {
+  shuffled = shuffle(quizData);
+  currentIdx = 0; score = 0; wrong = 0; answered = false;
+  document.getElementById('gameArea').style.display = 'block';
+  document.getElementById('resultScreen').classList.remove('show');
+  updateStats();
+  loadQuestion();
+}
+
+function loadQuestion() {
+  answered = false;
+  const q = shuffled[currentIdx];
+
+  document.getElementById('badgeNum').textContent  = `第 ${currentIdx + 1} 問`;
+  document.getElementById('badgeCat').textContent  = q.cat;
+  document.getElementById('questionText').textContent = q.q;
+
+  // 選択肢
+  const cc = document.getElementById('choicesContainer');
+  cc.innerHTML = '';
+  ['①','②','③','④'].forEach((lbl, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<span class="choice-num">${lbl}</span>${q.choices[i]}`;
+    btn.onclick = () => selectAnswer(i);
+    cc.appendChild(btn);
+  });
+
+  // リセット
+  document.getElementById('explanation').classList.remove('show');
+  document.getElementById('btnNext').classList.remove('show');
+  const ov = document.getElementById('feedbackOverlay');
+  ov.className = 'feedback-overlay';
+
+  // 進捗
+  const pct = Math.round((currentIdx / shuffled.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `問題 ${currentIdx + 1} / ${shuffled.length}`;
+  document.getElementById('progressPct').textContent  = pct + '%';
+
+  // カードアニメーション
+  const card = document.getElementById('questionCard');
+  card.classList.remove('anim-slide', 'anim-shake', 'anim-pop');
+  void card.offsetWidth;
+  card.classList.add('anim-slide');
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+
+  const q = shuffled[currentIdx];
+  const correct = idx === q.answer;
+
+  if (correct) score++; else wrong++;
+  updateStats();
+
+  // ボタンのスタイル
+  document.querySelectorAll('.choice-btn').forEach((btn, i) => {
+    btn.disabled = true;
+    if      (i === q.answer)        btn.classList.add('correct');
+    else if (i === idx && !correct) btn.classList.add('wrong');
+    else                            btn.classList.add('dim');
+  });
+
+  // フィードバックオーバーレイ
+  const ov = document.getElementById('feedbackOverlay');
+  document.getElementById('fbIcon').textContent  = correct ? '⭕' : '❌';
+  document.getElementById('fbText').textContent  = correct ? '正解！' : '不正解…';
+  document.getElementById('fbTruth').textContent = `答えは「${q.choices[q.answer]}」でした`;
+  ov.classList.add(correct ? 'correct' : 'wrong', 'show');
+
+  // カードアニメーション
+  const card = document.getElementById('questionCard');
+  card.classList.remove('anim-slide', 'anim-shake', 'anim-pop');
+  void card.offsetWidth;
+  card.classList.add(correct ? 'anim-pop' : 'anim-shake');
+  card.addEventListener('animationend', () => {
+    card.classList.remove('anim-shake', 'anim-pop');
+  }, { once: true });
+
+  // 解説
+  document.getElementById('explanationText').textContent = q.ex;
+  document.getElementById('explanation').classList.add('show');
+
+  // 次へボタン
+  const btn = document.getElementById('btnNext');
+  btn.textContent = currentIdx < shuffled.length - 1
+    ? '▷ 　次の問題へ'
+    : '▷ 　結果を見る';
+  btn.classList.add('show');
+}
+
+function nextQuestion() {
+  currentIdx++;
+  if (currentIdx >= shuffled.length) showResult();
+  else loadQuestion();
+}
+
+function updateStats() {
+  const total = score + wrong;
+  const acc   = total > 0 ? Math.round((score / total) * 100) : null;
+  document.getElementById('accuracyVal').textContent = acc !== null ? acc + '%' : '－';
+  document.getElementById('correctVal').textContent  = score;
+  document.getElementById('wrongVal').textContent    = wrong;
+  document.getElementById('myScore').textContent     = score;
+}
+
+function showResult() {
+  document.getElementById('gameArea').style.display = 'none';
+  const rs = document.getElementById('resultScreen');
+  rs.classList.add('show');
+
+  const total = shuffled.length;
+  const pct   = Math.round((score / total) * 100);
+
+  document.getElementById('resultPct').textContent    = pct + '%';
+  document.getElementById('resultDetail').textContent = `${total}問中 ${score}問正解`;
+  document.getElementById('rCorrect').textContent     = score;
+  document.getElementById('rWrong').textContent       = wrong;
+
+  let emoji, msg;
+  if      (pct >= 90) { emoji = '🏆'; msg = '素晴らしい！雑学マスターですね。ほぼすべての問題を制覇しました。'; }
+  else if (pct >= 70) { emoji = '🎉'; msg = 'よくできました！雑学センスがありますね。あと少しで完璧です。'; }
+  else if (pct >= 50) { emoji = '😊'; msg = 'まずまずの結果！半分以上正解できました。さらに上を目指して。'; }
+  else if (pct >= 30) { emoji = '🤔'; msg = '雑学の奥深さを実感しましたか？もう一度チャレンジしてみましょう！'; }
+  else                { emoji = '😅'; msg = '雑学は奥が深いですね…！繰り返すうちにきっと上達します！'; }
+
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultMsg').textContent   = msg;
+}
+
+function restart() { init(); }
+
+init();
+</script>
+</body>
+</html>

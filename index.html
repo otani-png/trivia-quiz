@@ -160,30 +160,44 @@
       letter-spacing: 0.03em;
     }
 
-    /* 正誤フィードバックオーバーレイ */
-    .feedback-overlay {
-      position: absolute;
-      inset: 0;
-      border-radius: 20px;
-      display: flex;
-      flex-direction: column;
+    /* ── インライン結果表示 */
+    .answer-result {
+      display: none;
       align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 11px;
+      margin-bottom: 1rem;
+      animation: slideUp 0.3s ease;
     }
 
-    .feedback-overlay.show { opacity: 1; }
-    .feedback-overlay.correct { background: rgba(74,222,128,0.18);  border: 2px solid #4ade80; border-radius: 20px; }
-    .feedback-overlay.wrong   { background: rgba(248,113,113,0.15); border: 2px solid #f87171; border-radius: 20px; }
+    .answer-result.show { display: flex; }
 
-    .feedback-icon  { font-size: 2.8rem; margin-bottom: 0.3rem; }
-    .feedback-text  { font-size: 1.1rem; font-weight: bold; }
-    .feedback-truth {
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.65);
-      margin-top: 0.3rem;
+    .answer-result.correct {
+      background: rgba(74,222,128,0.12);
+      border: 1px solid rgba(74,222,128,0.35);
+    }
+
+    .answer-result.wrong {
+      background: rgba(248,113,113,0.10);
+      border: 1px solid rgba(248,113,113,0.35);
+    }
+
+    .ar-icon { font-size: 1.6rem; flex-shrink: 0; }
+
+    .ar-verdict {
+      font-size: 0.95rem;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.1rem;
+    }
+
+    .answer-result.correct .ar-verdict { color: #4ade80; }
+    .answer-result.wrong   .ar-verdict { color: #f87171; }
+
+    .ar-truth {
+      font-size: 0.75rem;
+      color: #8899aa;
       letter-spacing: 0.06em;
     }
 
@@ -220,6 +234,22 @@
 
     .tf-true:hover:not(:disabled)  { background: rgba(74,222,128,0.1); }
     .tf-false:hover:not(:disabled) { background: rgba(248,113,113,0.1); }
+
+    .tf-btn.selected-correct {
+      background: rgba(74,222,128,0.18);
+      border-color: #4ade80;
+      color: #4ade80;
+      opacity: 1 !important;
+    }
+
+    .tf-btn.selected-wrong {
+      background: rgba(248,113,113,0.15);
+      border-color: #f87171;
+      color: #f87171;
+      opacity: 1 !important;
+    }
+
+    .tf-btn.dim { opacity: 0.2 !important; }
 
     /* ── 解説 */
     .explanation {
@@ -484,6 +514,14 @@
       <button class="tf-btn tf-false" id="btnFalse" onclick="selectAnswer(false)">×</button>
     </div>
 
+    <div class="answer-result" id="answerResult">
+      <span class="ar-icon"    id="arIcon"></span>
+      <div>
+        <span class="ar-verdict" id="arVerdict"></span>
+        <span class="ar-truth"   id="arTruth"></span>
+      </div>
+    </div>
+
     <div class="explanation" id="explanation">
       <span class="ex-label">解 説</span>
       <span id="explanationText"></span>
@@ -494,12 +532,6 @@
     <div class="counter">
       <span class="c-label">汝 の 正 解</span>
       <span class="c-num" id="myScore">0</span>
-    </div>
-
-    <div class="feedback-overlay" id="feedbackOverlay">
-      <div class="feedback-icon"  id="fbIcon"></div>
-      <div class="feedback-text"  id="fbText"></div>
-      <div class="feedback-truth" id="fbTruth"></div>
     </div>
   </div>
 
@@ -664,12 +696,17 @@ function loadQuestion() {
   document.getElementById('badgeCat').textContent     = q.cat;
   document.getElementById('questionText').textContent = q.q;
 
-  document.getElementById('btnTrue').disabled  = false;
-  document.getElementById('btnFalse').disabled = false;
+  const btnTrue  = document.getElementById('btnTrue');
+  const btnFalse = document.getElementById('btnFalse');
+  btnTrue.disabled  = false;
+  btnFalse.disabled = false;
+  btnTrue.className  = 'tf-btn tf-true';
+  btnFalse.className = 'tf-btn tf-false';
+
+  const ar = document.getElementById('answerResult');
+  ar.className = 'answer-result';
   document.getElementById('explanation').classList.remove('show');
   document.getElementById('btnNext').classList.remove('show');
-  const ov = document.getElementById('feedbackOverlay');
-  ov.className = 'feedback-overlay';
 
   const pct = Math.round((currentIdx / shuffled.length) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
@@ -692,15 +729,26 @@ function selectAnswer(userSaysTrue) {
   if (correct) score++; else wrong++;
   updateStats();
 
-  document.getElementById('btnTrue').disabled  = true;
-  document.getElementById('btnFalse').disabled = true;
+  // ボタンのスタイル変更
+  const btnTrue  = document.getElementById('btnTrue');
+  const btnFalse = document.getElementById('btnFalse');
+  btnTrue.disabled  = true;
+  btnFalse.disabled = true;
 
-  // フィードバックオーバーレイ
-  const ov = document.getElementById('feedbackOverlay');
-  document.getElementById('fbIcon').textContent  = correct ? '⭕' : '❌';
-  document.getElementById('fbText').textContent  = correct ? '正解！' : '不正解…';
-  document.getElementById('fbTruth').textContent = q.isTrue ? '本当の雑学でした' : '嘘の雑学でした';
-  ov.classList.add(correct ? 'correct' : 'wrong', 'show');
+  if (userSaysTrue) {
+    btnTrue.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+    btnFalse.classList.add('dim');
+  } else {
+    btnFalse.classList.add(correct ? 'selected-correct' : 'selected-wrong');
+    btnTrue.classList.add('dim');
+  }
+
+  // インライン結果表示
+  const ar = document.getElementById('answerResult');
+  document.getElementById('arIcon').textContent    = correct ? '⭕' : '❌';
+  document.getElementById('arVerdict').textContent = correct ? '正解！' : '不正解…';
+  document.getElementById('arTruth').textContent   = q.isTrue ? '本当の雑学でした' : '嘘の雑学でした';
+  ar.classList.add(correct ? 'correct' : 'wrong', 'show');
 
   // カードアニメーション
   const card = document.getElementById('questionCard');

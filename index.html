@@ -67,9 +67,7 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
-    .total-stat {
-      text-align: center;
-    }
+    .total-stat { text-align: center; }
 
     .total-stat .ts-label {
       font-size: 0.62rem;
@@ -182,6 +180,12 @@
       margin-bottom: 1rem;
     }
 
+    .btn-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
     .tf-btn {
       padding: 1.2rem;
       font-size: 2.8rem;
@@ -191,6 +195,7 @@
       background: transparent;
       cursor: pointer;
       font-family: inherit;
+      width: 100%;
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
 
@@ -223,6 +228,43 @@
     }
 
     .tf-btn.dim { opacity: 0.2 !important; }
+
+    /* ── みんなの回答バー */
+    .crowd-info {
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .crowd-info.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .crowd-bar {
+      height: 4px;
+      background: rgba(0,0,0,0.09);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 0.28rem;
+    }
+
+    .crowd-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.75s ease;
+    }
+
+    .crowd-bar-fill.green { background: rgba(22,163,74,0.55); }
+    .crowd-bar-fill.red   { background: rgba(220,38,38,0.5); }
+
+    .crowd-pct {
+      text-align: center;
+      font-size: 0.72rem;
+      color: #9a8878;
+      letter-spacing: 0.05em;
+    }
 
     /* ── インライン結果表示 */
     .answer-result {
@@ -333,138 +375,6 @@
       letter-spacing: 0.08em;
     }
 
-    /* ── 結果画面 */
-    .result-screen {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      width: 90%;
-      max-width: 640px;
-      padding: 2rem 0 3rem;
-    }
-
-    .result-screen.show { display: flex; }
-
-    .result-card {
-      background: #ffffff;
-      border: 1px solid rgba(0,0,0,0.07);
-      border-radius: 20px;
-      padding: 2.5rem 2rem;
-      text-align: center;
-      width: 100%;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-      animation: slideUp 0.5s ease;
-    }
-
-    .result-emoji { font-size: 3.5rem; margin-bottom: 0.8rem; }
-
-    .result-title {
-      font-size: 1.2rem;
-      letter-spacing: 0.3em;
-      text-indent: 0.3em;
-      margin-bottom: 1rem;
-      color: #1a1214;
-    }
-
-    .result-pct {
-      font-size: 5rem;
-      font-weight: bold;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(90deg, #e94560, #f5a623);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .result-detail {
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
-      color: #9a8878;
-      margin-bottom: 1.6rem;
-    }
-
-    .result-score-row {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-bottom: 1rem;
-    }
-
-    .result-score-card {
-      flex: 1;
-      max-width: 120px;
-      background: #f9f7f4;
-      border: 1px solid rgba(0,0,0,0.07);
-      border-radius: 10px;
-      padding: 1rem 0.5rem;
-    }
-
-    .result-score-card .rs-label { font-size: 0.62rem; letter-spacing: 0.22em; color: #9a8878; margin-bottom: 0.4rem; display: block; }
-    .result-score-card .rs-val   { font-size: 1.8rem; font-weight: bold; }
-    .result-score-card.c .rs-val { color: #16a34a; }
-    .result-score-card.w .rs-val { color: #dc2626; }
-
-    /* 通算記録（結果画面） */
-    .result-total {
-      background: #f9f7f4;
-      border: 1px solid rgba(0,0,0,0.07);
-      border-radius: 10px;
-      padding: 0.9rem 1rem;
-      margin-bottom: 1.4rem;
-      font-size: 0.82rem;
-      color: #5a4530;
-      letter-spacing: 0.05em;
-    }
-
-    .result-total .rt-label {
-      font-size: 0.62rem;
-      letter-spacing: 0.22em;
-      color: #9a8878;
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-
-    .result-total .rt-val {
-      font-size: 1.1rem;
-      font-weight: bold;
-      background: linear-gradient(90deg, #e94560, #f5a623);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .result-divider {
-      width: 40px;
-      height: 1px;
-      background: rgba(233,69,96,0.3);
-      margin: 0 auto 1.4rem;
-    }
-
-    .result-msg {
-      font-size: 0.88rem;
-      line-height: 1.85;
-      color: #5a4530;
-      letter-spacing: 0.04em;
-      margin-bottom: 1.8rem;
-    }
-
-    .btn-retry {
-      width: 100%;
-      padding: 0.9rem;
-      border: 1.5px solid rgba(233,69,96,0.5);
-      background: transparent;
-      color: #e94560;
-      font-family: inherit;
-      font-size: 0.88rem;
-      letter-spacing: 0.3em;
-      cursor: pointer;
-      border-radius: 11px;
-      transition: background 0.2s;
-    }
-
-    .btn-retry:hover { background: rgba(233,69,96,0.07); }
-
     /* フッター */
     .footer-deco {
       padding: 1.5rem 0 2rem;
@@ -498,7 +408,6 @@
       .header h1     { font-size: 1.5rem; }
       .tf-btn        { font-size: 2.2rem; padding: 1rem; }
       .question-card { padding: 1.4rem 1.2rem 1.2rem; }
-      .result-pct    { font-size: 4rem; }
     }
   </style>
 </head>
@@ -506,7 +415,7 @@
 
 <div class="top-line"></div>
 
-<div class="container" id="gameArea">
+<div class="container">
 
   <div class="header">
     <h1>雑 学 ク イ ズ</h1>
@@ -533,8 +442,8 @@
 
   <div class="progress-section">
     <div class="progress-info">
-      <span id="progressText">問題 1 / 20</span>
-      <span id="progressPct">0%</span>
+      <span id="progressText">第 1 問</span>
+      <span id="progressRound">ラウンド 1</span>
     </div>
     <div class="progress-bar">
       <div class="progress-fill" id="progressFill" style="width:0%"></div>
@@ -552,8 +461,24 @@
     </div>
 
     <div class="tf-btns">
-      <button class="tf-btn tf-true"  id="btnTrue"  onclick="selectAnswer(true)">〇</button>
-      <button class="tf-btn tf-false" id="btnFalse" onclick="selectAnswer(false)">×</button>
+      <div class="btn-wrap">
+        <button class="tf-btn tf-true" id="btnTrue" onclick="selectAnswer(true)">〇</button>
+        <div class="crowd-info" id="crowdTrue">
+          <div class="crowd-bar">
+            <div class="crowd-bar-fill green" id="crowdTrueFill"></div>
+          </div>
+          <div class="crowd-pct" id="crowdTruePct"></div>
+        </div>
+      </div>
+      <div class="btn-wrap">
+        <button class="tf-btn tf-false" id="btnFalse" onclick="selectAnswer(false)">×</button>
+        <div class="crowd-info" id="crowdFalse">
+          <div class="crowd-bar">
+            <div class="crowd-bar-fill red" id="crowdFalseFill"></div>
+          </div>
+          <div class="crowd-pct" id="crowdFalsePct"></div>
+        </div>
+      </div>
     </div>
 
     <div class="answer-result" id="answerResult">
@@ -579,37 +504,13 @@
 
 </div>
 
-<div class="result-screen" id="resultScreen">
-  <div class="result-card">
-    <div class="result-emoji"   id="resultEmoji"></div>
-    <div class="result-title">ク イ ズ 終 了</div>
-    <div class="result-pct"    id="resultPct"></div>
-    <div class="result-detail"  id="resultDetail"></div>
-    <div class="result-score-row">
-      <div class="result-score-card c">
-        <span class="rs-label">正 解</span>
-        <span class="rs-val" id="rCorrect"></span>
-      </div>
-      <div class="result-score-card w">
-        <span class="rs-label">不 正 解</span>
-        <span class="rs-val" id="rWrong"></span>
-      </div>
-    </div>
-    <div class="result-total">
-      <span class="rt-label">通 算 成 績</span>
-      <span class="rt-val" id="resultTotalText"></span>
-    </div>
-    <div class="result-divider"></div>
-    <div class="result-msg" id="resultMsg"></div>
-    <button class="btn-retry" onclick="restart()">▷ &nbsp; もう一度挑戦</button>
-  </div>
-</div>
-
 <p class="footer-deco">✦ &nbsp; ✦ &nbsp; ✦</p>
 
 <script>
 const STORAGE_KEY = 'trivia-quiz-stats';
+const VOTES_KEY   = 'trivia-quiz-votes';
 
+/* ── 通算スコア ── */
 function loadTotal() {
   try {
     const s = localStorage.getItem(STORAGE_KEY);
@@ -617,10 +518,10 @@ function loadTotal() {
   } catch { return { correct: 0, answered: 0 }; }
 }
 
-function saveTotal(addCorrect, addAnswered) {
+function saveTotal(addCorrect) {
   const t = loadTotal();
   t.correct  += addCorrect;
-  t.answered += addAnswered;
+  t.answered += 1;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(t));
 }
 
@@ -632,30 +533,100 @@ function updateTotalDisplay() {
   document.getElementById('totalRateDisplay').textContent = rate;
 }
 
+/* ── みんなの回答 ── */
+function loadVotes() {
+  try {
+    const s = localStorage.getItem(VOTES_KEY);
+    return s ? JSON.parse(s) : {};
+  } catch { return {}; }
+}
+
+function addVote(id, votedTrue) {
+  const v = loadVotes();
+  if (!v[id]) v[id] = { t: 0, f: 0 };
+  votedTrue ? v[id].t++ : v[id].f++;
+  localStorage.setItem(VOTES_KEY, JSON.stringify(v));
+}
+
+function getVotePcts(id, q) {
+  const v = loadVotes();
+  const local = v[id] || { t: 0, f: 0 };
+  const tt = q.sv[0] + local.t;
+  const ff = q.sv[1] + local.f;
+  const total = tt + ff;
+  return {
+    t: Math.round((tt / total) * 100),
+    f: Math.round((ff / total) * 100),
+  };
+}
+
+/* ── クイズデータ ── */
+// sv: [○シード票, ×シード票]
 const quizData = [
-  { q: "タコには心臓が3つある。",                                                            isTrue: true,  cat: "生き物", ex: "えら心臓が2つ＋体心臓が1つで合計3つです。えら心臓が血液をえらへ送り、体心臓が全身に循環させます。" },
-  { q: "富士山の標高は3,776mである。",                                                        isTrue: true,  cat: "日本",   ex: "日本最高峰で標高3,776m。最後の噴火は1707年の宝永大噴火で、そのとき山腹に宝永火口が形成されました。" },
-  { q: "成人の人間の骨の数は約206本である。",                                                  isTrue: true,  cat: "人体",   ex: "赤ちゃんは約300本以上ありますが、成長とともに骨が融合して成人では約206本になります。" },
-  { q: "人間の脳は体重の約2%しかないが、全身エネルギーの約20%を消費する。",                      isTrue: true,  cat: "人体",   ex: "脳はサイズのわりに非常にエネルギー消費が大きい器官です。常に膨大な情報処理を行っているためです。" },
-  { q: "蜂蜜は適切に密封保存すれば何千年経っても腐らない。",                                      isTrue: true,  cat: "食べ物", ex: "エジプトの王墓から約3300年前の蜂蜜が食べられる状態で発見されています。高糖度・低水分で細菌が繁殖できないためです。" },
-  { q: "サメが地球上に登場したのは、恐竜より3億年以上前のことだ。",                               isTrue: true,  cat: "生き物", ex: "サメは約4億5000万年前（オルドビス紀）に出現。恐竜の出現は約2億3000万年前なので、サメはそれより約2億2000万年古い生き物です。" },
-  { q: "アリは自分の体重の約50倍の重さを運ぶことができる。",                                      isTrue: true,  cat: "生き物", ex: "体が小さいほど体積に対する筋肉断面積の割合が大きくなるため、相対的に大きな力を発揮できます。種類によっては50倍以上の記録もあります。" },
-  { q: "日本の国鳥はキジである。",                                                             isTrue: true,  cat: "日本",   ex: "1947年に日本鳥学会が選定しました。桃太郎にも登場するなど日本人に古くから親しまれており、１万円札の裏にも描かれています。" },
-  { q: "人体の血管をすべてつなげると、地球を2周以上できる長さになる。",                            isTrue: true,  cat: "人体",   ex: "毛細血管を含む総延長は約10万km。地球一周が約4万kmなので、約2.5周分の長さになります。" },
-  { q: "眠っている犬が夢を見ることは科学的に確認されている。",                                     isTrue: true,  cat: "生き物", ex: "MITの研究で、犬はREM睡眠中に日中の出来事を夢として再体験していることが確認されています。寝ている犬の足が動くのはそのためです。" },
-  { q: "金魚の記憶はわずか3秒しか持続しない。",                                                  isTrue: false, cat: "生き物", ex: "都市伝説です。金魚の記憶は数ヶ月間持続することが研究で証明されています。餌のある場所を記憶し、条件反射的な学習もできます。" },
-  { q: "万里の長城は宇宙から肉眼で見える。",                                                     isTrue: false, cat: "歴史",   ex: "幅5〜8mほどの長城は細すぎて宇宙からは見えません。中国の宇宙飛行士・楊利偉氏も「見えなかった」と証言しています。" },
-  { q: "ナポレオンの身長は当時のフランス人男性平均より20cm以上低かった。",                          isTrue: false, cat: "歴史",   ex: "ナポレオンは約169cmで、当時の平均（約165cm）より高かったです。「低い」という印象はイギリスのプロパガンダと単位換算ミスが原因とされています。" },
-  { q: "コウモリは目が見えないため、エコーロケーションだけを頼りに行動する。",                       isTrue: false, cat: "生き物", ex: "コウモリは目が見えないわけではありません。多くの種は視覚も持っており、エコーロケーションは暗闇での補助的なナビゲーション手段です。" },
-  { q: "チョコレートは犬には有毒だが、猫には無害である。",                                          isTrue: false, cat: "生き物", ex: "チョコレートのテオブロミンは猫にも有毒です。ただし猫は甘味受容体がないため自発的に食べたがらず、中毒例が犬より少ないだけです。" },
-  { q: "ペンギンは南極と北極の両方に生息している。",                                               isTrue: false, cat: "生き物", ex: "ペンギンはすべての種が南半球にのみ生息しています。北極にペンギンは存在せず、似た生態を持つオオウミガラス（現在は絶滅）が代わりにいました。" },
-  { q: "カメレオンが体色を変えるのは、主に天敵から身を守るカモフラージュのためだ。",                 isTrue: false, cat: "生き物", ex: "カメレオンの体色変化の主な目的はコミュニケーションと体温調節です。皮膚内のナノ結晶が光の反射を変えることで色が変わります。" },
-  { q: "人間は死後も髪の毛と爪が伸び続ける。",                                                     isTrue: false, cat: "人体",   ex: "死後は細胞分裂が止まるため伸びません。死後に皮膚が乾燥・収縮することで爪や髪が相対的に長く見えるだけです。" },
-  { q: "光が地球を一周するのにかかる時間は約1秒である。",                                           isTrue: false, cat: "科学",   ex: "光の速さは約30万km/秒、地球一周は約4万kmなので、1周は約0.13秒（133ミリ秒）です。1秒間で地球を約7.5周できます。" },
-  { q: "ガラスは非常にゆっくりと流れ続ける液体で、古い窓ガラスの下が厚いのはそのためだ。",            isTrue: false, cat: "科学",   ex: "ガラスは常温で完全な固体です。古い窓ガラスの下が厚いのは、当時の製造技術の限界で厚い側を安定のため下にして設置したからです。" },
+  { id: 0,  q: "タコには心臓が3つある。",
+    isTrue: true,  cat: "生き物", sv: [562, 338],
+    ex: "えら心臓が2つ＋体心臓が1つで合計3つです。えら心臓が血液をえらへ送り、体心臓が全身に循環させます。" },
+  { id: 1,  q: "富士山の標高は3,776mである。",
+    isTrue: true,  cat: "日本",   sv: [821, 109],
+    ex: "日本最高峰で標高3,776m。最後の噴火は1707年の宝永大噴火で、そのとき山腹に宝永火口が形成されました。" },
+  { id: 2,  q: "成人の人間の骨の数は約206本である。",
+    isTrue: true,  cat: "人体",   sv: [643, 277],
+    ex: "赤ちゃんは約300本以上ありますが、成長とともに骨が融合して成人では約206本になります。" },
+  { id: 3,  q: "人間の脳は体重の約2%しかないが、全身エネルギーの約20%を消費する。",
+    isTrue: true,  cat: "人体",   sv: [598, 322],
+    ex: "脳はサイズのわりに非常にエネルギー消費が大きい器官です。常に膨大な情報処理を行っているためです。" },
+  { id: 4,  q: "蜂蜜は適切に密封保存すれば何千年経っても腐らない。",
+    isTrue: true,  cat: "食べ物", sv: [531, 389],
+    ex: "エジプトの王墓から約3300年前の蜂蜜が食べられる状態で発見されています。高糖度・低水分で細菌が繁殖できないためです。" },
+  { id: 5,  q: "サメが地球上に登場したのは、恐竜より2億年以上前のことだ。",
+    isTrue: true,  cat: "生き物", sv: [487, 413],
+    ex: "サメは約4億5000万年前（オルドビス紀）に出現。恐竜の出現は約2億3000万年前なので、サメはそれより約2億2000万年古い生き物です。" },
+  { id: 6,  q: "アリは自分の体重の約50倍の重さを運ぶことができる。",
+    isTrue: true,  cat: "生き物", sv: [621, 299],
+    ex: "体が小さいほど体積に対する筋肉断面積の割合が大きくなるため、相対的に大きな力を発揮できます。種類によっては50倍以上の記録もあります。" },
+  { id: 7,  q: "日本の国鳥はキジである。",
+    isTrue: true,  cat: "日本",   sv: [573, 327],
+    ex: "1947年に日本鳥学会が選定しました。桃太郎にも登場するなど日本人に古くから親しまれており、１万円札の裏にも描かれています。" },
+  { id: 8,  q: "人体の血管をすべてつなげると、地球を2周以上できる長さになる。",
+    isTrue: true,  cat: "人体",   sv: [546, 354],
+    ex: "毛細血管を含む総延長は約10万km。地球一周が約4万kmなので、約2.5周分の長さになります。" },
+  { id: 9,  q: "眠っている犬が夢を見ることは科学的に確認されている。",
+    isTrue: true,  cat: "生き物", sv: [692, 228],
+    ex: "MITの研究で、犬はREM睡眠中に日中の出来事を夢として再体験していることが確認されています。寝ている犬の足が動くのはそのためです。" },
+  { id: 10, q: "金魚の記憶はわずか3秒しか持続しない。",
+    isTrue: false, cat: "生き物", sv: [687, 213],
+    ex: "都市伝説です。金魚の記憶は数ヶ月間持続することが研究で証明されています。餌のある場所を記憶し、条件反射的な学習もできます。" },
+  { id: 11, q: "万里の長城は宇宙から肉眼で見える。",
+    isTrue: false, cat: "歴史",   sv: [712, 188],
+    ex: "幅5〜8mほどの長城は細すぎて宇宙からは見えません。中国の宇宙飛行士・楊利偉氏も「見えなかった」と証言しています。" },
+  { id: 12, q: "ナポレオンの身長は当時のフランス人男性の平均より低かった。",
+    isTrue: false, cat: "歴史",   sv: [756, 144],
+    ex: "ナポレオンは約169cmで、当時の平均（約165cm）より高かったです。「低い」という印象はイギリスのプロパガンダと単位換算ミスが原因とされています。" },
+  { id: 13, q: "コウモリは目が見えないため、エコーロケーションだけを頼りに行動する。",
+    isTrue: false, cat: "生き物", sv: [601, 299],
+    ex: "コウモリは目が見えないわけではありません。多くの種は視覚も持っており、エコーロケーションは暗闇での補助的なナビゲーション手段です。" },
+  { id: 14, q: "チョコレートは犬には有毒だが、猫には無害である。",
+    isTrue: false, cat: "生き物", sv: [384, 516],
+    ex: "チョコレートのテオブロミンは猫にも有毒です。ただし猫は甘味受容体がないため自発的に食べたがらず、中毒例が犬より少ないだけです。" },
+  { id: 15, q: "ペンギンは南極と北極の両方に生息している。",
+    isTrue: false, cat: "生き物", sv: [567, 333],
+    ex: "ペンギンはすべての種が南半球にのみ生息しています。北極にペンギンは存在せず、似た生態を持つオオウミガラス（現在は絶滅）が代わりにいました。" },
+  { id: 16, q: "カメレオンが体色を変えるのは、主に天敵から身を守るカモフラージュのためだ。",
+    isTrue: false, cat: "生き物", sv: [653, 247],
+    ex: "カメレオンの体色変化の主な目的はコミュニケーションと体温調節です。皮膚内のナノ結晶が光の反射を変えることで色が変わります。" },
+  { id: 17, q: "人間は死後も髪の毛と爪が伸び続ける。",
+    isTrue: false, cat: "人体",   sv: [618, 282],
+    ex: "死後は細胞分裂が止まるため伸びません。死後に皮膚が乾燥・収縮することで爪や髪が相対的に長く見えるだけです。" },
+  { id: 18, q: "光が地球を一周するのにかかる時間は約1秒である。",
+    isTrue: false, cat: "科学",   sv: [509, 391],
+    ex: "光の速さは約30万km/秒、地球一周は約4万kmなので、1周は約0.13秒（133ミリ秒）です。1秒間で地球を約7.5周できます。" },
+  { id: 19, q: "ガラスは非常にゆっくりと流れ続ける液体で、古い窓ガラスの下が厚いのはそのためだ。",
+    isTrue: false, cat: "科学",   sv: [567, 313],
+    ex: "ガラスは常温で完全な固体です。古い窓ガラスの下が厚いのは、当時の製造技術の限界で厚い側を安定のため下にして設置したからです。" },
 ];
 
-let shuffled = [], currentIdx = 0, score = 0, wrong = 0, answered = false;
+let shuffled = [], currentIdx = 0, score = 0, answered = false;
+let totalNum = 1, roundNum = 1;
 
 function shuffle(arr) {
   const a = [...arr];
@@ -667,10 +638,9 @@ function shuffle(arr) {
 }
 
 function init() {
-  shuffled = shuffle(quizData);
-  currentIdx = 0; score = 0; wrong = 0; answered = false;
-  document.getElementById('gameArea').style.display = 'block';
-  document.getElementById('resultScreen').classList.remove('show');
+  shuffled  = shuffle(quizData);
+  currentIdx = 0; score = 0; answered = false;
+  totalNum = 1; roundNum = 1;
   updateTotalDisplay();
   loadQuestion();
 }
@@ -679,7 +649,7 @@ function loadQuestion() {
   answered = false;
   const q = shuffled[currentIdx];
 
-  document.getElementById('badgeNum').textContent     = `第 ${currentIdx + 1} 問`;
+  document.getElementById('badgeNum').textContent     = `第 ${totalNum} 問`;
   document.getElementById('badgeCat').textContent     = q.cat;
   document.getElementById('questionText').textContent = q.q;
 
@@ -696,12 +666,21 @@ function loadQuestion() {
   document.getElementById('answerResult').className = 'answer-result';
   document.getElementById('explanation').classList.remove('show');
   document.getElementById('btnNext').classList.remove('show');
+  document.getElementById('myScore').textContent = score;
 
+  // みんなの回答リセット（非表示 & バーを0に戻す）
+  document.getElementById('crowdTrue').classList.remove('show');
+  document.getElementById('crowdFalse').classList.remove('show');
+  document.getElementById('crowdTrueFill').style.transition  = 'none';
+  document.getElementById('crowdFalseFill').style.transition = 'none';
+  document.getElementById('crowdTrueFill').style.width  = '0%';
+  document.getElementById('crowdFalseFill').style.width = '0%';
+
+  // プログレスバー（ラウンド内進捗）
   const pct = Math.round((currentIdx / shuffled.length) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressText').textContent = `問題 ${currentIdx + 1} / ${shuffled.length}`;
-  document.getElementById('progressPct').textContent  = pct + '%';
-  document.getElementById('myScore').textContent      = score;
+  document.getElementById('progressText').textContent = `第 ${totalNum} 問`;
+  document.getElementById('progressRound').textContent = `ラウンド ${roundNum}`;
 
   card.classList.remove('anim-slide', 'anim-shake', 'anim-pop');
   void card.offsetWidth;
@@ -714,10 +693,15 @@ function selectAnswer(userSaysTrue) {
 
   const q = shuffled[currentIdx];
   const correct = userSaysTrue === q.isTrue;
-
-  if (correct) score++; else wrong++;
+  if (correct) score++;
   document.getElementById('myScore').textContent = score;
 
+  // 通算スコア・票を保存
+  addVote(q.id, userSaysTrue);
+  saveTotal(correct ? 1 : 0);
+  updateTotalDisplay();
+
+  // ボタン状態
   const btnTrue  = document.getElementById('btnTrue');
   const btnFalse = document.getElementById('btnFalse');
   btnTrue.disabled  = true;
@@ -734,6 +718,7 @@ function selectAnswer(userSaysTrue) {
   const card = document.getElementById('questionCard');
   card.classList.add(correct ? 'is-correct' : 'is-wrong');
 
+  // 正誤表示
   const ar = document.getElementById('answerResult');
   document.getElementById('arIcon').textContent    = correct ? '⭕' : '❌';
   document.getElementById('arVerdict').textContent = correct ? '正解！' : '不正解…';
@@ -747,55 +732,41 @@ function selectAnswer(userSaysTrue) {
     card.classList.remove('anim-shake', 'anim-pop');
   }, { once: true });
 
+  // 解説
   document.getElementById('explanationText').textContent = q.ex;
   document.getElementById('explanation').classList.add('show');
 
-  const btn = document.getElementById('btnNext');
-  btn.textContent = currentIdx < shuffled.length - 1
-    ? '▷ 　次の問題へ'
-    : '▷ 　結果を見る';
-  btn.classList.add('show');
+  // みんなの回答を遅延表示
+  const pcts = getVotePcts(q.id, q);
+  setTimeout(() => {
+    document.getElementById('crowdTruePct').textContent  = pcts.t + '%';
+    document.getElementById('crowdFalsePct').textContent = pcts.f + '%';
+    document.getElementById('crowdTrue').classList.add('show');
+    document.getElementById('crowdFalse').classList.add('show');
+    // transition を復元してからバーを伸ばす
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.getElementById('crowdTrueFill').style.transition  = 'width 0.75s ease';
+        document.getElementById('crowdFalseFill').style.transition = 'width 0.75s ease';
+        document.getElementById('crowdTrueFill').style.width  = pcts.t + '%';
+        document.getElementById('crowdFalseFill').style.width = pcts.f + '%';
+      });
+    });
+  }, 320);
+
+  document.getElementById('btnNext').classList.add('show');
 }
 
 function nextQuestion() {
+  totalNum++;
   currentIdx++;
-  if (currentIdx >= shuffled.length) showResult();
-  else loadQuestion();
+  if (currentIdx >= shuffled.length) {
+    roundNum++;
+    shuffled = shuffle(quizData);
+    currentIdx = 0;
+  }
+  loadQuestion();
 }
-
-function showResult() {
-  // 通算スコアに加算して保存
-  saveTotal(score, shuffled.length);
-  updateTotalDisplay();
-
-  document.getElementById('gameArea').style.display = 'none';
-  document.getElementById('resultScreen').classList.add('show');
-
-  const total = shuffled.length;
-  const pct   = Math.round((score / total) * 100);
-
-  document.getElementById('resultPct').textContent    = pct + '%';
-  document.getElementById('resultDetail').textContent = `${total}問中 ${score}問正解`;
-  document.getElementById('rCorrect').textContent     = score;
-  document.getElementById('rWrong').textContent       = wrong;
-
-  const t = loadTotal();
-  const totalRate = Math.round((t.correct / t.answered) * 100);
-  document.getElementById('resultTotalText').textContent =
-    `${t.answered}問挑戦 · ${t.correct}問正解 · 正解率 ${totalRate}%`;
-
-  let emoji, msg;
-  if      (pct >= 90) { emoji = '🏆'; msg = '素晴らしい！雑学マスターですね。ほぼすべての雑学を見破りました。'; }
-  else if (pct >= 70) { emoji = '🎉'; msg = 'よくできました！雑学センスがありますね。あと少しで完璧です。'; }
-  else if (pct >= 50) { emoji = '😊'; msg = 'まずまずの結果！半分以上正解できました。さらに上を目指して。'; }
-  else if (pct >= 30) { emoji = '🤔'; msg = '雑学の奥深さを実感しましたか？もう一度チャレンジしてみましょう！'; }
-  else                { emoji = '😅'; msg = '雑学は奥が深いですね…！繰り返すうちにきっと上達します！'; }
-
-  document.getElementById('resultEmoji').textContent = emoji;
-  document.getElementById('resultMsg').textContent   = msg;
-}
-
-function restart() { init(); }
 
 init();
 </script>

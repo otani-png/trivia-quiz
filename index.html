@@ -32,10 +32,7 @@
     }
 
     /* ── ヘッダー */
-    .header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+    .header { text-align: center; margin-bottom: 2rem; }
 
     .header h1 {
       font-size: 2rem;
@@ -90,18 +87,12 @@
       background-clip: text;
     }
 
-    .total-sep {
-      width: 1px;
-      background: rgba(0,0,0,0.08);
-      align-self: stretch;
-    }
+    .total-sep { width: 1px; background: rgba(0,0,0,0.08); align-self: stretch; }
 
     /* ── プログレスバー */
     .progress-section { margin-bottom: 1.4rem; }
 
-    .progress-info {
-      display: flex;
-      justify-content: space-between;
+    .progress-label {
       font-size: 0.78rem;
       letter-spacing: 0.08em;
       color: #9a8878;
@@ -136,12 +127,7 @@
     .question-card.is-correct { box-shadow: 0 4px 24px rgba(22,163,74,0.15); }
     .question-card.is-wrong   { box-shadow: 0 4px 24px rgba(220,38,38,0.12); }
 
-    /* バッジ行 */
-    .badge-row {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.2rem;
-    }
+    .badge-row { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; }
 
     .badge {
       padding: 3px 10px;
@@ -154,7 +140,6 @@
     .badge-num { border-color: rgba(233,69,96,0.4); color: #e94560; }
     .badge-cat { border-color: rgba(196,120,10,0.4); color: #c47810; }
 
-    /* 問題テキスト */
     .quote-box {
       border-left: 2px solid #e94560;
       padding: 0.9rem 1rem 0.9rem 1.2rem;
@@ -177,14 +162,10 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
 
-    .btn-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+    .btn-wrap { display: flex; flex-direction: column; gap: 0.5rem; }
 
     .tf-btn {
       padding: 1.2rem;
@@ -209,37 +190,21 @@
 
     .tf-true  { border-color: rgba(22,163,74,0.5);   color: #16a34a; }
     .tf-false { border-color: rgba(220,38,38,0.45);  color: #dc2626; }
-
     .tf-true:hover:not(:disabled)  { background: rgba(22,163,74,0.07); }
     .tf-false:hover:not(:disabled) { background: rgba(220,38,38,0.06); }
 
-    .tf-btn.selected-correct {
-      background: rgba(22,163,74,0.12);
-      border-color: #16a34a;
-      color: #16a34a;
-      opacity: 1 !important;
-    }
-
-    .tf-btn.selected-wrong {
-      background: rgba(220,38,38,0.10);
-      border-color: #dc2626;
-      color: #dc2626;
-      opacity: 1 !important;
-    }
-
+    .tf-btn.selected-correct { background: rgba(22,163,74,0.12); border-color: #16a34a; color: #16a34a; opacity: 1 !important; }
+    .tf-btn.selected-wrong   { background: rgba(220,38,38,0.10); border-color: #dc2626; color: #dc2626; opacity: 1 !important; }
     .tf-btn.dim { opacity: 0.2 !important; }
 
-    /* ── みんなの回答バー */
+    /* ── みんなの回答 */
     .crowd-info {
       opacity: 0;
       transform: translateY(5px);
       transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
-    .crowd-info.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .crowd-info.show { opacity: 1; transform: translateY(0); }
 
     .crowd-bar {
       height: 4px;
@@ -261,12 +226,27 @@
 
     .crowd-pct {
       text-align: center;
-      font-size: 0.72rem;
-      color: #9a8878;
-      letter-spacing: 0.05em;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: #6a5848;
+      letter-spacing: 0.03em;
     }
 
-    /* ── インライン結果表示 */
+    /* "N人が回答" ラベル */
+    .crowd-total {
+      text-align: center;
+      font-size: 0.64rem;
+      letter-spacing: 0.16em;
+      color: #b8a898;
+      margin-top: 0.1rem;
+      margin-bottom: 1rem;
+      opacity: 0;
+      transition: opacity 0.4s ease 0.1s;
+    }
+
+    .crowd-total.show { opacity: 1; }
+
+    /* ── 正誤表示 */
     .answer-result {
       display: none;
       align-items: center;
@@ -279,33 +259,16 @@
 
     .answer-result.show { display: flex; }
 
-    .answer-result.correct {
-      background: rgba(22,163,74,0.08);
-      border: 1px solid rgba(22,163,74,0.3);
-    }
-
-    .answer-result.wrong {
-      background: rgba(220,38,38,0.07);
-      border: 1px solid rgba(220,38,38,0.3);
-    }
+    .answer-result.correct { background: rgba(22,163,74,0.08);  border: 1px solid rgba(22,163,74,0.3); }
+    .answer-result.wrong   { background: rgba(220,38,38,0.07);  border: 1px solid rgba(220,38,38,0.3); }
 
     .ar-icon { font-size: 1.6rem; flex-shrink: 0; }
 
-    .ar-verdict {
-      font-size: 0.95rem;
-      font-weight: bold;
-      display: block;
-      margin-bottom: 0.1rem;
-    }
-
+    .ar-verdict { font-size: 0.95rem; font-weight: bold; display: block; margin-bottom: 0.1rem; }
     .answer-result.correct .ar-verdict { color: #16a34a; }
     .answer-result.wrong   .ar-verdict { color: #dc2626; }
 
-    .ar-truth {
-      font-size: 0.75rem;
-      color: #9a8878;
-      letter-spacing: 0.06em;
-    }
+    .ar-truth { font-size: 0.75rem; color: #9a8878; letter-spacing: 0.06em; }
 
     /* ── 解説 */
     .explanation {
@@ -347,18 +310,10 @@
     }
 
     .btn-next.show { display: block; }
-
-    .btn-next:hover {
-      background: rgba(233,69,96,0.07);
-      border-color: #e94560;
-    }
+    .btn-next:hover { background: rgba(233,69,96,0.07); border-color: #e94560; }
 
     /* カウンター */
-    .counter {
-      text-align: center;
-      margin-top: 1.2rem;
-      line-height: 1;
-    }
+    .counter { text-align: center; margin-top: 1.2rem; line-height: 1; }
 
     .counter .c-label {
       font-size: 0.6rem;
@@ -368,12 +323,7 @@
       margin-bottom: 0.3rem;
     }
 
-    .counter .c-num {
-      font-size: 1rem;
-      color: #c47810;
-      font-weight: bold;
-      letter-spacing: 0.08em;
-    }
+    .counter .c-num { font-size: 1rem; color: #c47810; font-weight: bold; letter-spacing: 0.08em; }
 
     /* フッター */
     .footer-deco {
@@ -383,7 +333,6 @@
       color: rgba(233,69,96,0.2);
     }
 
-    /* アニメーション */
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -422,7 +371,6 @@
     <p>本当か嘘か、知識で見破れ</p>
   </div>
 
-  <!-- 通算スコア -->
   <div class="total-stats">
     <div class="total-stat">
       <span class="ts-label">通 算 正 解</span>
@@ -441,10 +389,7 @@
   </div>
 
   <div class="progress-section">
-    <div class="progress-info">
-      <span id="progressText">第 1 問</span>
-      <span id="progressRound">ラウンド 1</span>
-    </div>
+    <div class="progress-label" id="progressLabel">第 1 問</div>
     <div class="progress-bar">
       <div class="progress-fill" id="progressFill" style="width:0%"></div>
     </div>
@@ -464,22 +409,20 @@
       <div class="btn-wrap">
         <button class="tf-btn tf-true" id="btnTrue" onclick="selectAnswer(true)">〇</button>
         <div class="crowd-info" id="crowdTrue">
-          <div class="crowd-bar">
-            <div class="crowd-bar-fill green" id="crowdTrueFill"></div>
-          </div>
+          <div class="crowd-bar"><div class="crowd-bar-fill green" id="crowdTrueFill"></div></div>
           <div class="crowd-pct" id="crowdTruePct"></div>
         </div>
       </div>
       <div class="btn-wrap">
         <button class="tf-btn tf-false" id="btnFalse" onclick="selectAnswer(false)">×</button>
         <div class="crowd-info" id="crowdFalse">
-          <div class="crowd-bar">
-            <div class="crowd-bar-fill red" id="crowdFalseFill"></div>
-          </div>
+          <div class="crowd-bar"><div class="crowd-bar-fill red" id="crowdFalseFill"></div></div>
           <div class="crowd-pct" id="crowdFalsePct"></div>
         </div>
       </div>
     </div>
+
+    <div class="crowd-total" id="crowdTotal"></div>
 
     <div class="answer-result" id="answerResult">
       <span class="ar-icon"    id="arIcon"></span>
@@ -507,20 +450,62 @@
 <p class="footer-deco">✦ &nbsp; ✦ &nbsp; ✦</p>
 
 <script>
-const STORAGE_KEY = 'trivia-quiz-stats';
-const VOTES_KEY   = 'trivia-quiz-votes';
+/* ═══════════════════════════════════════════════════
+   Firebase Realtime Database  （みんなの回答を記録）
+   ───────────────────────────────────────────────────
+   セットアップ:
+   1. https://console.firebase.google.com/ でプロジェクト作成
+   2. Realtime Database → 作成（テストモードで開始）
+   3. 下の FIREBASE_URL を自分のDB URLに書き換える
+      例: https://my-quiz-abc123-default-rtdb.firebaseio.com
+   ═══════════════════════════════════════════════════ */
+const FIREBASE_URL = 'https://trivia-quiz-otani-default-rtdb.firebaseio.com';
+const USE_FIREBASE = !FIREBASE_URL.includes('YOUR-PROJECT');
 
-/* ── 通算スコア ── */
-function loadTotal() {
+let remoteVotes = {};   // { "0": {t:120, f:80}, "1": {...}, ... }
+
+async function fetchRemoteVotes() {
+  if (!USE_FIREBASE) return;
   try {
-    const s = localStorage.getItem(STORAGE_KEY);
-    return s ? JSON.parse(s) : { correct: 0, answered: 0 };
-  } catch { return { correct: 0, answered: 0 }; }
+    const res = await fetch(`${FIREBASE_URL}/votes.json`);
+    if (res.ok) remoteVotes = (await res.json()) || {};
+  } catch {}
+}
+
+function pushRemoteVote(id, votedTrue) {
+  if (!USE_FIREBASE) return;
+  // 楽観的ローカル更新
+  const v = remoteVotes[id] || { t: 0, f: 0 };
+  remoteVotes[id] = { t: (v.t || 0) + (votedTrue ? 1 : 0),
+                      f: (v.f || 0) + (votedTrue ? 0 : 1) };
+  // バックグラウンドで書き込み
+  const copy = { ...remoteVotes[id] };
+  fetch(`${FIREBASE_URL}/votes/${id}.json`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(copy),
+  }).catch(() => {});
+}
+
+function calcPcts(id) {
+  const v = remoteVotes[id] || { t: 0, f: 0 };
+  const tt = v.t || 0, ff = v.f || 0, total = tt + ff;
+  if (total === 0) return null;
+  const tp = Math.round(tt / total * 100);
+  return { t: tp, f: 100 - tp, total };
+}
+
+/* ── localStorage: 通算スコア ── */
+const STORAGE_KEY = 'trivia-quiz-stats';
+
+function loadTotal() {
+  try { const s = localStorage.getItem(STORAGE_KEY); return s ? JSON.parse(s) : { correct: 0, answered: 0 }; }
+  catch { return { correct: 0, answered: 0 }; }
 }
 
 function saveTotal(addCorrect) {
   const t = loadTotal();
-  t.correct  += addCorrect;
+  t.correct += addCorrect;
   t.answered += 1;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(t));
 }
@@ -529,104 +514,75 @@ function updateTotalDisplay() {
   const t = loadTotal();
   document.getElementById('totalCorrectDisplay').textContent  = t.correct;
   document.getElementById('totalAnsweredDisplay').textContent = t.answered;
-  const rate = t.answered > 0 ? Math.round((t.correct / t.answered) * 100) + '%' : '－';
-  document.getElementById('totalRateDisplay').textContent = rate;
-}
-
-/* ── みんなの回答 ── */
-function loadVotes() {
-  try {
-    const s = localStorage.getItem(VOTES_KEY);
-    return s ? JSON.parse(s) : {};
-  } catch { return {}; }
-}
-
-function addVote(id, votedTrue) {
-  const v = loadVotes();
-  if (!v[id]) v[id] = { t: 0, f: 0 };
-  votedTrue ? v[id].t++ : v[id].f++;
-  localStorage.setItem(VOTES_KEY, JSON.stringify(v));
-}
-
-function getVotePcts(id, q) {
-  const v = loadVotes();
-  const local = v[id] || { t: 0, f: 0 };
-  const tt = q.sv[0] + local.t;
-  const ff = q.sv[1] + local.f;
-  const total = tt + ff;
-  return {
-    t: Math.round((tt / total) * 100),
-    f: Math.round((ff / total) * 100),
-  };
+  document.getElementById('totalRateDisplay').textContent =
+    t.answered > 0 ? Math.round(t.correct / t.answered * 100) + '%' : '－';
 }
 
 /* ── クイズデータ ── */
-// sv: [○シード票, ×シード票]
 const quizData = [
   { id: 0,  q: "タコには心臓が3つある。",
-    isTrue: true,  cat: "生き物", sv: [562, 338],
+    isTrue: true,  cat: "生き物",
     ex: "えら心臓が2つ＋体心臓が1つで合計3つです。えら心臓が血液をえらへ送り、体心臓が全身に循環させます。" },
   { id: 1,  q: "富士山の標高は3,776mである。",
-    isTrue: true,  cat: "日本",   sv: [821, 109],
+    isTrue: true,  cat: "日本",
     ex: "日本最高峰で標高3,776m。最後の噴火は1707年の宝永大噴火で、そのとき山腹に宝永火口が形成されました。" },
   { id: 2,  q: "成人の人間の骨の数は約206本である。",
-    isTrue: true,  cat: "人体",   sv: [643, 277],
+    isTrue: true,  cat: "人体",
     ex: "赤ちゃんは約300本以上ありますが、成長とともに骨が融合して成人では約206本になります。" },
   { id: 3,  q: "人間の脳は体重の約2%しかないが、全身エネルギーの約20%を消費する。",
-    isTrue: true,  cat: "人体",   sv: [598, 322],
+    isTrue: true,  cat: "人体",
     ex: "脳はサイズのわりに非常にエネルギー消費が大きい器官です。常に膨大な情報処理を行っているためです。" },
   { id: 4,  q: "蜂蜜は適切に密封保存すれば何千年経っても腐らない。",
-    isTrue: true,  cat: "食べ物", sv: [531, 389],
+    isTrue: true,  cat: "食べ物",
     ex: "エジプトの王墓から約3300年前の蜂蜜が食べられる状態で発見されています。高糖度・低水分で細菌が繁殖できないためです。" },
   { id: 5,  q: "サメが地球上に登場したのは、恐竜より2億年以上前のことだ。",
-    isTrue: true,  cat: "生き物", sv: [487, 413],
+    isTrue: true,  cat: "生き物",
     ex: "サメは約4億5000万年前（オルドビス紀）に出現。恐竜の出現は約2億3000万年前なので、サメはそれより約2億2000万年古い生き物です。" },
   { id: 6,  q: "アリは自分の体重の約50倍の重さを運ぶことができる。",
-    isTrue: true,  cat: "生き物", sv: [621, 299],
+    isTrue: true,  cat: "生き物",
     ex: "体が小さいほど体積に対する筋肉断面積の割合が大きくなるため、相対的に大きな力を発揮できます。種類によっては50倍以上の記録もあります。" },
   { id: 7,  q: "日本の国鳥はキジである。",
-    isTrue: true,  cat: "日本",   sv: [573, 327],
+    isTrue: true,  cat: "日本",
     ex: "1947年に日本鳥学会が選定しました。桃太郎にも登場するなど日本人に古くから親しまれており、１万円札の裏にも描かれています。" },
   { id: 8,  q: "人体の血管をすべてつなげると、地球を2周以上できる長さになる。",
-    isTrue: true,  cat: "人体",   sv: [546, 354],
+    isTrue: true,  cat: "人体",
     ex: "毛細血管を含む総延長は約10万km。地球一周が約4万kmなので、約2.5周分の長さになります。" },
   { id: 9,  q: "眠っている犬が夢を見ることは科学的に確認されている。",
-    isTrue: true,  cat: "生き物", sv: [692, 228],
+    isTrue: true,  cat: "生き物",
     ex: "MITの研究で、犬はREM睡眠中に日中の出来事を夢として再体験していることが確認されています。寝ている犬の足が動くのはそのためです。" },
   { id: 10, q: "金魚の記憶はわずか3秒しか持続しない。",
-    isTrue: false, cat: "生き物", sv: [687, 213],
+    isTrue: false, cat: "生き物",
     ex: "都市伝説です。金魚の記憶は数ヶ月間持続することが研究で証明されています。餌のある場所を記憶し、条件反射的な学習もできます。" },
   { id: 11, q: "万里の長城は宇宙から肉眼で見える。",
-    isTrue: false, cat: "歴史",   sv: [712, 188],
+    isTrue: false, cat: "歴史",
     ex: "幅5〜8mほどの長城は細すぎて宇宙からは見えません。中国の宇宙飛行士・楊利偉氏も「見えなかった」と証言しています。" },
   { id: 12, q: "ナポレオンの身長は当時のフランス人男性の平均より低かった。",
-    isTrue: false, cat: "歴史",   sv: [756, 144],
+    isTrue: false, cat: "歴史",
     ex: "ナポレオンは約169cmで、当時の平均（約165cm）より高かったです。「低い」という印象はイギリスのプロパガンダと単位換算ミスが原因とされています。" },
   { id: 13, q: "コウモリは目が見えないため、エコーロケーションだけを頼りに行動する。",
-    isTrue: false, cat: "生き物", sv: [601, 299],
+    isTrue: false, cat: "生き物",
     ex: "コウモリは目が見えないわけではありません。多くの種は視覚も持っており、エコーロケーションは暗闇での補助的なナビゲーション手段です。" },
   { id: 14, q: "チョコレートは犬には有毒だが、猫には無害である。",
-    isTrue: false, cat: "生き物", sv: [384, 516],
+    isTrue: false, cat: "生き物",
     ex: "チョコレートのテオブロミンは猫にも有毒です。ただし猫は甘味受容体がないため自発的に食べたがらず、中毒例が犬より少ないだけです。" },
   { id: 15, q: "ペンギンは南極と北極の両方に生息している。",
-    isTrue: false, cat: "生き物", sv: [567, 333],
+    isTrue: false, cat: "生き物",
     ex: "ペンギンはすべての種が南半球にのみ生息しています。北極にペンギンは存在せず、似た生態を持つオオウミガラス（現在は絶滅）が代わりにいました。" },
   { id: 16, q: "カメレオンが体色を変えるのは、主に天敵から身を守るカモフラージュのためだ。",
-    isTrue: false, cat: "生き物", sv: [653, 247],
+    isTrue: false, cat: "生き物",
     ex: "カメレオンの体色変化の主な目的はコミュニケーションと体温調節です。皮膚内のナノ結晶が光の反射を変えることで色が変わります。" },
   { id: 17, q: "人間は死後も髪の毛と爪が伸び続ける。",
-    isTrue: false, cat: "人体",   sv: [618, 282],
+    isTrue: false, cat: "人体",
     ex: "死後は細胞分裂が止まるため伸びません。死後に皮膚が乾燥・収縮することで爪や髪が相対的に長く見えるだけです。" },
   { id: 18, q: "光が地球を一周するのにかかる時間は約1秒である。",
-    isTrue: false, cat: "科学",   sv: [509, 391],
+    isTrue: false, cat: "科学",
     ex: "光の速さは約30万km/秒、地球一周は約4万kmなので、1周は約0.13秒（133ミリ秒）です。1秒間で地球を約7.5周できます。" },
   { id: 19, q: "ガラスは非常にゆっくりと流れ続ける液体で、古い窓ガラスの下が厚いのはそのためだ。",
-    isTrue: false, cat: "科学",   sv: [567, 313],
+    isTrue: false, cat: "科学",
     ex: "ガラスは常温で完全な固体です。古い窓ガラスの下が厚いのは、当時の製造技術の限界で厚い側を安定のため下にして設置したからです。" },
 ];
 
-let shuffled = [], currentIdx = 0, score = 0, answered = false;
-let totalNum = 1, roundNum = 1;
+let shuffled = [], currentIdx = 0, score = 0, answered = false, totalNum = 1;
 
 function shuffle(arr) {
   const a = [...arr];
@@ -637,11 +593,11 @@ function shuffle(arr) {
   return a;
 }
 
-function init() {
-  shuffled  = shuffle(quizData);
-  currentIdx = 0; score = 0; answered = false;
-  totalNum = 1; roundNum = 1;
+async function init() {
+  shuffled = shuffle(quizData);
+  currentIdx = 0; score = 0; answered = false; totalNum = 1;
   updateTotalDisplay();
+  await fetchRemoteVotes();
   loadQuestion();
 }
 
@@ -652,6 +608,7 @@ function loadQuestion() {
   document.getElementById('badgeNum').textContent     = `第 ${totalNum} 問`;
   document.getElementById('badgeCat').textContent     = q.cat;
   document.getElementById('questionText').textContent = q.q;
+  document.getElementById('progressLabel').textContent = `第 ${totalNum} 問`;
 
   const btnTrue  = document.getElementById('btnTrue');
   const btnFalse = document.getElementById('btnFalse');
@@ -668,19 +625,20 @@ function loadQuestion() {
   document.getElementById('btnNext').classList.remove('show');
   document.getElementById('myScore').textContent = score;
 
-  // みんなの回答リセット（非表示 & バーを0に戻す）
+  // みんなの回答リセット
   document.getElementById('crowdTrue').classList.remove('show');
   document.getElementById('crowdFalse').classList.remove('show');
-  document.getElementById('crowdTrueFill').style.transition  = 'none';
-  document.getElementById('crowdFalseFill').style.transition = 'none';
-  document.getElementById('crowdTrueFill').style.width  = '0%';
-  document.getElementById('crowdFalseFill').style.width = '0%';
+  document.getElementById('crowdTotal').classList.remove('show');
+  const tfEl = document.getElementById('crowdTrueFill');
+  const ffEl = document.getElementById('crowdFalseFill');
+  tfEl.style.transition = 'none';
+  ffEl.style.transition = 'none';
+  tfEl.style.width = '0%';
+  ffEl.style.width = '0%';
 
-  // プログレスバー（ラウンド内進捗）
-  const pct = Math.round((currentIdx / shuffled.length) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressText').textContent = `第 ${totalNum} 問`;
-  document.getElementById('progressRound').textContent = `ラウンド ${roundNum}`;
+  // プログレスバー（シャッフル内の進捗）
+  document.getElementById('progressFill').style.width =
+    Math.round(currentIdx / shuffled.length * 100) + '%';
 
   card.classList.remove('anim-slide', 'anim-shake', 'anim-pop');
   void card.offsetWidth;
@@ -696,10 +654,12 @@ function selectAnswer(userSaysTrue) {
   if (correct) score++;
   document.getElementById('myScore').textContent = score;
 
-  // 通算スコア・票を保存
-  addVote(q.id, userSaysTrue);
+  // 通算スコア保存
   saveTotal(correct ? 1 : 0);
   updateTotalDisplay();
+
+  // Firebase に投票を記録（楽観的更新 → バックグラウンドPUT）
+  pushRemoteVote(q.id, userSaysTrue);
 
   // ボタン状態
   const btnTrue  = document.getElementById('btnTrue');
@@ -728,31 +688,34 @@ function selectAnswer(userSaysTrue) {
   card.classList.remove('anim-slide', 'anim-shake', 'anim-pop');
   void card.offsetWidth;
   card.classList.add(correct ? 'anim-pop' : 'anim-shake');
-  card.addEventListener('animationend', () => {
-    card.classList.remove('anim-shake', 'anim-pop');
-  }, { once: true });
+  card.addEventListener('animationend', () => card.classList.remove('anim-shake', 'anim-pop'), { once: true });
 
   // 解説
   document.getElementById('explanationText').textContent = q.ex;
   document.getElementById('explanation').classList.add('show');
 
-  // みんなの回答を遅延表示
-  const pcts = getVotePcts(q.id, q);
-  setTimeout(() => {
-    document.getElementById('crowdTruePct').textContent  = pcts.t + '%';
-    document.getElementById('crowdFalsePct').textContent = pcts.f + '%';
-    document.getElementById('crowdTrue').classList.add('show');
-    document.getElementById('crowdFalse').classList.add('show');
-    // transition を復元してからバーを伸ばす
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        document.getElementById('crowdTrueFill').style.transition  = 'width 0.75s ease';
-        document.getElementById('crowdFalseFill').style.transition = 'width 0.75s ease';
-        document.getElementById('crowdTrueFill').style.width  = pcts.t + '%';
-        document.getElementById('crowdFalseFill').style.width = pcts.f + '%';
-      });
-    });
-  }, 320);
+  // みんなの回答バーを遅延表示
+  if (USE_FIREBASE) {
+    setTimeout(() => {
+      const pcts = calcPcts(q.id);
+      if (!pcts) return;
+      document.getElementById('crowdTruePct').textContent  = pcts.t + '%';
+      document.getElementById('crowdFalsePct').textContent = pcts.f + '%';
+      document.getElementById('crowdTotal').textContent =
+        pcts.total.toLocaleString() + ' 人 が 回 答';
+      document.getElementById('crowdTrue').classList.add('show');
+      document.getElementById('crowdFalse').classList.add('show');
+      document.getElementById('crowdTotal').classList.add('show');
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        const tfEl = document.getElementById('crowdTrueFill');
+        const ffEl = document.getElementById('crowdFalseFill');
+        tfEl.style.transition = 'width 0.75s ease';
+        ffEl.style.transition = 'width 0.75s ease';
+        tfEl.style.width = pcts.t + '%';
+        ffEl.style.width = pcts.f + '%';
+      }));
+    }, 320);
+  }
 
   document.getElementById('btnNext').classList.add('show');
 }
@@ -761,7 +724,6 @@ function nextQuestion() {
   totalNum++;
   currentIdx++;
   if (currentIdx >= shuffled.length) {
-    roundNum++;
     shuffled = shuffle(quizData);
     currentIdx = 0;
   }

@@ -45,11 +45,7 @@
       margin-bottom: 0.4rem;
     }
 
-    .header p {
-      font-size: 0.78rem;
-      letter-spacing: 0.28em;
-      color: #9a8878;
-    }
+    .header p { font-size: 0.78rem; letter-spacing: 0.28em; color: #9a8878; }
 
     /* ── 通算スコア */
     .total-stats {
@@ -67,44 +63,24 @@
     .total-stat { text-align: center; }
 
     .total-stat .ts-label {
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      color: #9a8878;
-      display: block;
-      margin-bottom: 0.15rem;
+      font-size: 0.62rem; letter-spacing: 0.2em; color: #9a8878; display: block; margin-bottom: 0.15rem;
     }
 
-    .total-stat .ts-value {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #1a1214;
-    }
+    .total-stat .ts-value { font-size: 1.2rem; font-weight: bold; color: #1a1214; }
 
     .total-stat .ts-value.accent {
       background: linear-gradient(90deg, #e94560, #f5a623);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
 
     .total-sep { width: 1px; background: rgba(0,0,0,0.08); align-self: stretch; }
 
-    /* ── プログレスバー */
+    /* ── プログレス */
     .progress-section { margin-bottom: 1.4rem; }
 
-    .progress-label {
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      color: #9a8878;
-      margin-bottom: 0.5rem;
-    }
+    .progress-label { font-size: 0.78rem; letter-spacing: 0.08em; color: #9a8878; margin-bottom: 0.5rem; }
 
-    .progress-bar {
-      height: 5px;
-      background: rgba(0,0,0,0.08);
-      border-radius: 3px;
-      overflow: hidden;
-    }
+    .progress-bar { height: 5px; background: rgba(0,0,0,0.08); border-radius: 3px; overflow: hidden; }
 
     .progress-fill {
       height: 100%;
@@ -129,15 +105,8 @@
 
     .badge-row { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; }
 
-    .badge {
-      padding: 3px 10px;
-      font-size: 0.68rem;
-      letter-spacing: 0.14em;
-      border: 1px solid;
-      border-radius: 2px;
-    }
-
-    .badge-num { border-color: rgba(233,69,96,0.4); color: #e94560; }
+    .badge { padding: 3px 10px; font-size: 0.68rem; letter-spacing: 0.14em; border: 1px solid; border-radius: 2px; }
+    .badge-num { border-color: rgba(233,69,96,0.4);  color: #e94560; }
     .badge-cat { border-color: rgba(196,120,10,0.4); color: #c47810; }
 
     .quote-box {
@@ -150,46 +119,42 @@
       align-items: center;
     }
 
-    .question-text {
-      font-size: 1.12rem;
-      line-height: 1.85;
-      letter-spacing: 0.03em;
-      color: #1a1214;
-    }
+    .question-text { font-size: 1.12rem; line-height: 1.85; letter-spacing: 0.03em; color: #1a1214; }
 
-    /* ── 〇×ボタン */
+    /* ────────────────────────────────────────
+       〇×ボタン — 高さ固定、%は内部に組み込む
+       ──────────────────────────────────────── */
     .tf-btns {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
     }
 
-    .btn-wrap { display: flex; flex-direction: column; gap: 0.5rem; }
-
     .tf-btn {
-      padding: 1.2rem;
-      font-size: 2.8rem;
-      line-height: 1;
+      position: relative;
+      overflow: hidden;
+      padding: 1.1rem 1rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
       border: 1.5px solid;
       border-radius: 14px;
       background: transparent;
       cursor: pointer;
       font-family: inherit;
-      width: 100%;
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
 
-    .tf-btn:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-
+    .tf-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
     .tf-btn:active:not(:disabled) { transform: translateY(0); }
     .tf-btn:disabled { cursor: not-allowed; }
 
     .tf-true  { border-color: rgba(22,163,74,0.5);   color: #16a34a; }
     .tf-false { border-color: rgba(220,38,38,0.45);  color: #dc2626; }
+
     .tf-true:hover:not(:disabled)  { background: rgba(22,163,74,0.07); }
     .tf-false:hover:not(:disabled) { background: rgba(220,38,38,0.06); }
 
@@ -197,51 +162,47 @@
     .tf-btn.selected-wrong   { background: rgba(220,38,38,0.10); border-color: #dc2626; color: #dc2626; opacity: 1 !important; }
     .tf-btn.dim { opacity: 0.2 !important; }
 
-    /* ── みんなの回答 */
-    .crowd-info {
-      opacity: 0;
-      transform: translateY(5px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
+    /* ボタン内シンボル */
+    .btn-symbol { font-size: 2.8rem; line-height: 1; display: block; }
 
-    .crowd-info.show { opacity: 1; transform: translateY(0); }
-
-    .crowd-bar {
-      height: 4px;
-      background: rgba(0,0,0,0.09);
-      border-radius: 2px;
-      overflow: hidden;
-      margin-bottom: 0.28rem;
-    }
-
-    .crowd-bar-fill {
-      height: 100%;
-      border-radius: 2px;
-      width: 0%;
-      transition: width 0.75s ease;
-    }
-
-    .crowd-bar-fill.green { background: rgba(22,163,74,0.55); }
-    .crowd-bar-fill.red   { background: rgba(220,38,38,0.5); }
-
-    .crowd-pct {
-      text-align: center;
-      font-size: 0.75rem;
+    /* ボタン内 みんなの % — 常に高さを確保 */
+    .btn-crowd-pct {
+      font-size: 0.8rem;
       font-weight: bold;
-      color: #6a5848;
-      letter-spacing: 0.03em;
+      line-height: 1;
+      display: block;
+      min-height: 1em;
+      letter-spacing: 0.04em;
+      color: inherit;
+      opacity: 0;
+      transition: opacity 0.4s ease;
     }
 
-    /* "N人が回答" ラベル */
+    .btn-crowd-pct.show { opacity: 0.85; }
+
+    /* ボタン底辺のバー */
+    .btn-crowd-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      /* transition は JS で付与 */
+    }
+
+    .btn-crowd-bar.green { background: rgba(22,163,74,0.65); }
+    .btn-crowd-bar.red   { background: rgba(220,38,38,0.6); }
+
+    /* 「N人が回答」— スペース常時確保 */
     .crowd-total {
       text-align: center;
       font-size: 0.64rem;
-      letter-spacing: 0.16em;
-      color: #b8a898;
-      margin-top: 0.1rem;
-      margin-bottom: 1rem;
+      letter-spacing: 0.18em;
+      color: #c0a898;
+      min-height: 1.3rem;
+      margin-bottom: 0.6rem;
       opacity: 0;
-      transition: opacity 0.4s ease 0.1s;
+      transition: opacity 0.4s ease 0.15s;
     }
 
     .crowd-total.show { opacity: 1; }
@@ -258,16 +219,14 @@
     }
 
     .answer-result.show { display: flex; }
-
-    .answer-result.correct { background: rgba(22,163,74,0.08);  border: 1px solid rgba(22,163,74,0.3); }
-    .answer-result.wrong   { background: rgba(220,38,38,0.07);  border: 1px solid rgba(220,38,38,0.3); }
+    .answer-result.correct { background: rgba(22,163,74,0.08); border: 1px solid rgba(22,163,74,0.3); }
+    .answer-result.wrong   { background: rgba(220,38,38,0.07); border: 1px solid rgba(220,38,38,0.3); }
 
     .ar-icon { font-size: 1.6rem; flex-shrink: 0; }
 
     .ar-verdict { font-size: 0.95rem; font-weight: bold; display: block; margin-bottom: 0.1rem; }
     .answer-result.correct .ar-verdict { color: #16a34a; }
     .answer-result.wrong   .ar-verdict { color: #dc2626; }
-
     .ar-truth { font-size: 0.75rem; color: #9a8878; letter-spacing: 0.06em; }
 
     /* ── 解説 */
@@ -286,19 +245,20 @@
     .explanation.show { display: block; }
 
     .explanation .ex-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      color: #c47810;
-      display: block;
-      margin-bottom: 0.4rem;
+      font-size: 0.65rem; letter-spacing: 0.25em; color: #c47810; display: block; margin-bottom: 0.4rem;
     }
 
-    /* ── 次へボタン */
+    /* ────────────────────────────────────────
+       次の問題へボタン — sticky で常に見える
+       ──────────────────────────────────────── */
     .btn-next {
+      display: none;
       width: 100%;
       padding: 0.9rem;
       border: 1.5px solid rgba(233,69,96,0.5);
-      background: transparent;
+      background: rgba(255,253,249,0.97);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       color: #e94560;
       font-family: inherit;
       font-size: 0.88rem;
@@ -306,7 +266,10 @@
       cursor: pointer;
       border-radius: 11px;
       transition: background 0.2s, border-color 0.2s;
-      display: none;
+      position: sticky;
+      bottom: 1rem;
+      box-shadow: 0 -2px 12px rgba(233,69,96,0.08), 0 4px 12px rgba(0,0,0,0.06);
+      z-index: 10;
     }
 
     .btn-next.show { display: block; }
@@ -315,35 +278,21 @@
     /* カウンター */
     .counter { text-align: center; margin-top: 1.2rem; line-height: 1; }
 
-    .counter .c-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.28em;
-      color: #9a8878;
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-
+    .counter .c-label { font-size: 0.6rem; letter-spacing: 0.28em; color: #9a8878; display: block; margin-bottom: 0.3rem; }
     .counter .c-num { font-size: 1rem; color: #c47810; font-weight: bold; letter-spacing: 0.08em; }
 
     /* フッター */
-    .footer-deco {
-      padding: 1.5rem 0 2rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.5em;
-      color: rgba(233,69,96,0.2);
-    }
+    .footer-deco { padding: 1.5rem 0 2rem; font-size: 0.7rem; letter-spacing: 0.5em; color: rgba(233,69,96,0.2); }
 
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes shake {
       0%,100% { transform: translateX(0); }
       25%      { transform: translateX(-7px); }
       75%      { transform: translateX(7px); }
     }
-
     @keyframes pop {
       0%,100% { transform: scale(1); }
       50%      { transform: scale(1.03); }
@@ -355,8 +304,9 @@
 
     @media (max-width: 480px) {
       .header h1     { font-size: 1.5rem; }
-      .tf-btn        { font-size: 2.2rem; padding: 1rem; }
+      .btn-symbol    { font-size: 2.2rem; }
       .question-card { padding: 1.4rem 1.2rem 1.2rem; }
+      .btn-next      { bottom: 0.5rem; }
     }
   </style>
 </head>
@@ -405,23 +355,21 @@
       <p class="question-text" id="questionText">読み込み中…</p>
     </div>
 
+    <!-- ボタン内部に%を内包 → 高さ不変 -->
     <div class="tf-btns">
-      <div class="btn-wrap">
-        <button class="tf-btn tf-true" id="btnTrue" onclick="selectAnswer(true)">〇</button>
-        <div class="crowd-info" id="crowdTrue">
-          <div class="crowd-bar"><div class="crowd-bar-fill green" id="crowdTrueFill"></div></div>
-          <div class="crowd-pct" id="crowdTruePct"></div>
-        </div>
-      </div>
-      <div class="btn-wrap">
-        <button class="tf-btn tf-false" id="btnFalse" onclick="selectAnswer(false)">×</button>
-        <div class="crowd-info" id="crowdFalse">
-          <div class="crowd-bar"><div class="crowd-bar-fill red" id="crowdFalseFill"></div></div>
-          <div class="crowd-pct" id="crowdFalsePct"></div>
-        </div>
-      </div>
+      <button class="tf-btn tf-true" id="btnTrue" onclick="selectAnswer(true)">
+        <span class="btn-symbol">〇</span>
+        <span class="btn-crowd-pct" id="crowdTruePct"></span>
+        <div  class="btn-crowd-bar green" id="crowdTrueFill"></div>
+      </button>
+      <button class="tf-btn tf-false" id="btnFalse" onclick="selectAnswer(false)">
+        <span class="btn-symbol">×</span>
+        <span class="btn-crowd-pct" id="crowdFalsePct"></span>
+        <div  class="btn-crowd-bar red" id="crowdFalseFill"></div>
+      </button>
     </div>
 
+    <!-- N人が回答 — min-height でスペース確保 -->
     <div class="crowd-total" id="crowdTotal"></div>
 
     <div class="answer-result" id="answerResult">
@@ -437,6 +385,7 @@
       <span id="explanationText"></span>
     </div>
 
+    <!-- sticky → スクロールしても画面下に常駐 -->
     <button class="btn-next" id="btnNext" onclick="nextQuestion()">▷ &nbsp; 次の問題へ</button>
 
     <div class="counter">
@@ -462,7 +411,7 @@
 const FIREBASE_URL = 'https://trivia-quiz-otani-default-rtdb.firebaseio.com';
 const USE_FIREBASE = !FIREBASE_URL.includes('YOUR-PROJECT');
 
-let remoteVotes = {};   // { "0": {t:120, f:80}, "1": {...}, ... }
+let remoteVotes = {};
 
 async function fetchRemoteVotes() {
   if (!USE_FIREBASE) return;
@@ -474,11 +423,9 @@ async function fetchRemoteVotes() {
 
 function pushRemoteVote(id, votedTrue) {
   if (!USE_FIREBASE) return;
-  // 楽観的ローカル更新
   const v = remoteVotes[id] || { t: 0, f: 0 };
   remoteVotes[id] = { t: (v.t || 0) + (votedTrue ? 1 : 0),
                       f: (v.f || 0) + (votedTrue ? 0 : 1) };
-  // バックグラウンドで書き込み
   const copy = { ...remoteVotes[id] };
   fetch(`${FIREBASE_URL}/votes/${id}.json`, {
     method: 'PUT',
@@ -505,8 +452,7 @@ function loadTotal() {
 
 function saveTotal(addCorrect) {
   const t = loadTotal();
-  t.correct += addCorrect;
-  t.answered += 1;
+  t.correct += addCorrect; t.answered += 1;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(t));
 }
 
@@ -605,10 +551,12 @@ function loadQuestion() {
   answered = false;
   const q = shuffled[currentIdx];
 
-  document.getElementById('badgeNum').textContent     = `第 ${totalNum} 問`;
-  document.getElementById('badgeCat').textContent     = q.cat;
-  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('badgeNum').textContent      = `第 ${totalNum} 問`;
+  document.getElementById('badgeCat').textContent      = q.cat;
+  document.getElementById('questionText').textContent  = q.q;
   document.getElementById('progressLabel').textContent = `第 ${totalNum} 問`;
+  document.getElementById('progressFill').style.width  =
+    Math.round(currentIdx / shuffled.length * 100) + '%';
 
   const btnTrue  = document.getElementById('btnTrue');
   const btnFalse = document.getElementById('btnFalse');
@@ -625,20 +573,20 @@ function loadQuestion() {
   document.getElementById('btnNext').classList.remove('show');
   document.getElementById('myScore').textContent = score;
 
-  // みんなの回答リセット
-  document.getElementById('crowdTrue').classList.remove('show');
-  document.getElementById('crowdFalse').classList.remove('show');
-  document.getElementById('crowdTotal').classList.remove('show');
-  const tfEl = document.getElementById('crowdTrueFill');
-  const ffEl = document.getElementById('crowdFalseFill');
-  tfEl.style.transition = 'none';
-  ffEl.style.transition = 'none';
-  tfEl.style.width = '0%';
-  ffEl.style.width = '0%';
+  // ボタン内 % リセット（スペースは保ったまま非表示）
+  const tPct  = document.getElementById('crowdTruePct');
+  const fPct  = document.getElementById('crowdFalsePct');
+  const tBar  = document.getElementById('crowdTrueFill');
+  const fBar  = document.getElementById('crowdFalseFill');
+  tPct.classList.remove('show');
+  fPct.classList.remove('show');
+  tBar.style.transition = 'none';
+  fBar.style.transition = 'none';
+  tBar.style.width = '0%';
+  fBar.style.width = '0%';
 
-  // プログレスバー（シャッフル内の進捗）
-  document.getElementById('progressFill').style.width =
-    Math.round(currentIdx / shuffled.length * 100) + '%';
+  document.getElementById('crowdTotal').classList.remove('show');
+  document.getElementById('crowdTotal').textContent = '';
 
   card.classList.remove('anim-slide', 'anim-shake', 'anim-pop');
   void card.offsetWidth;
@@ -654,14 +602,10 @@ function selectAnswer(userSaysTrue) {
   if (correct) score++;
   document.getElementById('myScore').textContent = score;
 
-  // 通算スコア保存
   saveTotal(correct ? 1 : 0);
   updateTotalDisplay();
-
-  // Firebase に投票を記録（楽観的更新 → バックグラウンドPUT）
   pushRemoteVote(q.id, userSaysTrue);
 
-  // ボタン状態
   const btnTrue  = document.getElementById('btnTrue');
   const btnFalse = document.getElementById('btnFalse');
   btnTrue.disabled  = true;
@@ -678,7 +622,6 @@ function selectAnswer(userSaysTrue) {
   const card = document.getElementById('questionCard');
   card.classList.add(correct ? 'is-correct' : 'is-wrong');
 
-  // 正誤表示
   const ar = document.getElementById('answerResult');
   document.getElementById('arIcon').textContent    = correct ? '⭕' : '❌';
   document.getElementById('arVerdict').textContent = correct ? '正解！' : '不正解…';
@@ -690,34 +633,38 @@ function selectAnswer(userSaysTrue) {
   card.classList.add(correct ? 'anim-pop' : 'anim-shake');
   card.addEventListener('animationend', () => card.classList.remove('anim-shake', 'anim-pop'), { once: true });
 
-  // 解説
   document.getElementById('explanationText').textContent = q.ex;
   document.getElementById('explanation').classList.add('show');
+  document.getElementById('btnNext').classList.add('show');
 
-  // みんなの回答バーを遅延表示
+  // みんなの % をボタン内部に表示（レイアウト不変）
   if (USE_FIREBASE) {
     setTimeout(() => {
       const pcts = calcPcts(q.id);
       if (!pcts) return;
-      document.getElementById('crowdTruePct').textContent  = pcts.t + '%';
-      document.getElementById('crowdFalsePct').textContent = pcts.f + '%';
-      document.getElementById('crowdTotal').textContent =
-        pcts.total.toLocaleString() + ' 人 が 回 答';
-      document.getElementById('crowdTrue').classList.add('show');
-      document.getElementById('crowdFalse').classList.add('show');
-      document.getElementById('crowdTotal').classList.add('show');
+
+      const tPct = document.getElementById('crowdTruePct');
+      const fPct = document.getElementById('crowdFalsePct');
+      const tBar = document.getElementById('crowdTrueFill');
+      const fBar = document.getElementById('crowdFalseFill');
+
+      tPct.textContent = pcts.t + '%';
+      fPct.textContent = pcts.f + '%';
+      tPct.classList.add('show');
+      fPct.classList.add('show');
+
+      const totalEl = document.getElementById('crowdTotal');
+      totalEl.textContent = pcts.total.toLocaleString() + ' 人 が 回 答';
+      totalEl.classList.add('show');
+
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        const tfEl = document.getElementById('crowdTrueFill');
-        const ffEl = document.getElementById('crowdFalseFill');
-        tfEl.style.transition = 'width 0.75s ease';
-        ffEl.style.transition = 'width 0.75s ease';
-        tfEl.style.width = pcts.t + '%';
-        ffEl.style.width = pcts.f + '%';
+        tBar.style.transition = 'width 0.75s ease';
+        fBar.style.transition = 'width 0.75s ease';
+        tBar.style.width = pcts.t + '%';
+        fBar.style.width = pcts.f + '%';
       }));
     }, 320);
   }
-
-  document.getElementById('btnNext').classList.add('show');
 }
 
 function nextQuestion() {

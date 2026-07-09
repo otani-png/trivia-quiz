@@ -1,0 +1,18 @@
+# APIキー・秘密情報
+.env
+.env.local
+.env.*.local
+
+# OSが自動生成するファイル
+.DS_Store
+Thumbs.db
+
+# エディタの設定ファイル
+.vscode/
+.idea/
+
+# Claude Codeのローカル設定
+.claude/
+
+# Node.jsを使う場合
+node_modules/

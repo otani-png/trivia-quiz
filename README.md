@@ -51,3 +51,11 @@ python -m http.server 3333
 ```
 
 → http://localhost:3333 を開く。
+
+## テスト
+
+```
+node test.js
+```
+
+ブラウザなしで index.html 内のJSを動かし、投票の送信・%表示・リージョン自動検出・オフライン時の挙動・問題データの整合性を確認する。

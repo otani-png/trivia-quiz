@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>雑学クイズ</title>
+  <meta name="description" content="本当か嘘か、知識で見破れ。〇×で答える雑学クイズ。みんなの回答率も見られる。">
+  <meta property="og:title" content="雑学クイズ">
+  <meta property="og:description" content="本当か嘘か、知識で見破れ。〇×で答える雑学クイズ。みんなの回答率も見られる。">
+  <meta property="og:url" content="https://otani-png.github.io/trivia-quiz/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💡</text></svg>">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -357,12 +364,12 @@
 
     <!-- ボタン内部に%を内包 → 高さ不変 -->
     <div class="tf-btns">
-      <button class="tf-btn tf-true" id="btnTrue" onclick="selectAnswer(true)">
+      <button class="tf-btn tf-true" id="btnTrue" onclick="selectAnswer(true)" aria-label="本当だと思う">
         <span class="btn-symbol">〇</span>
         <span class="btn-crowd-pct" id="crowdTruePct"></span>
         <div  class="btn-crowd-bar green" id="crowdTrueFill"></div>
       </button>
-      <button class="tf-btn tf-false" id="btnFalse" onclick="selectAnswer(false)">
+      <button class="tf-btn tf-false" id="btnFalse" onclick="selectAnswer(false)" aria-label="嘘だと思う">
         <span class="btn-symbol">×</span>
         <span class="btn-crowd-pct" id="crowdFalsePct"></span>
         <div  class="btn-crowd-bar red" id="crowdFalseFill"></div>

@@ -404,34 +404,71 @@
    ───────────────────────────────────────────────────
    セットアップ:
    1. https://console.firebase.google.com/ でプロジェクト作成
+      （プロジェクトIDを trivia-quiz-otani にする）
    2. Realtime Database → 作成（テストモードで開始）
-   3. 下の FIREBASE_URL を自分のDB URLに書き換える
-      例: https://my-quiz-abc123-default-rtdb.firebaseio.com
+   3. リージョン（保存場所）はどこを選んでもOK。
+      下の候補リストから自動で探して接続する。
    ═══════════════════════════════════════════════════ */
-const FIREBASE_URL = 'https://trivia-quiz-otani-default-rtdb.firebaseio.com';
-const USE_FIREBASE = !FIREBASE_URL.includes('YOUR-PROJECT');
+const FIREBASE_CANDIDATES = [
+  'https://trivia-quiz-otani-default-rtdb.firebaseio.com',
+  'https://trivia-quiz-otani-default-rtdb.asia-southeast1.firebasedatabase.app',
+  'https://trivia-quiz-otani-default-rtdb.europe-west1.firebasedatabase.app',
+];
+const FB_URL_CACHE_KEY = 'trivia-quiz-fb-url';
 
-let remoteVotes = {};
+let firebaseUrl = null;   // 接続できたDBのURL（null＝オフライン動作）
+let remoteVotes = {};     // { "0": { t: 〇の票数, f: ×の票数 }, ... }
 
-async function fetchRemoteVotes() {
-  if (!USE_FIREBASE) return;
+function fetchWithTimeout(url, options = {}, ms = 4000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { ...options, signal: ctrl.signal })
+    .finally(() => clearTimeout(timer));
+}
+
+// 候補URLを順に試して、つながったDBから全票を読み込む
+async function connectFirebase() {
+  const cached = localStorage.getItem(FB_URL_CACHE_KEY);
+  const candidates = cached
+    ? [cached, ...FIREBASE_CANDIDATES.filter(u => u !== cached)]
+    : FIREBASE_CANDIDATES;
+
+  for (const url of candidates) {
+    try {
+      const res = await fetchWithTimeout(`${url}/votes.json`);
+      if (res.ok) {
+        firebaseUrl = url;
+        remoteVotes = (await res.json()) || {};
+        localStorage.setItem(FB_URL_CACHE_KEY, url);
+        return;
+      }
+    } catch {}
+  }
+}
+
+// 回答する直前に、その問題の最新票数だけ取り直す
+async function refreshQuestionVotes(id) {
+  if (!firebaseUrl) return;
   try {
-    const res = await fetch(`${FIREBASE_URL}/votes.json`);
-    if (res.ok) remoteVotes = (await res.json()) || {};
+    const res = await fetchWithTimeout(`${firebaseUrl}/votes/${id}.json`, {}, 2500);
+    if (res.ok) {
+      const v = await res.json();
+      if (v) remoteVotes[id] = { t: v.t || 0, f: v.f || 0 };
+    }
   } catch {}
 }
 
+// 自分の1票を記録。サーバー側で +1 するので同時に投票してもズレない
 function pushRemoteVote(id, votedTrue) {
-  if (!USE_FIREBASE) return;
-  const v = remoteVotes[id] || { t: 0, f: 0 };
-  remoteVotes[id] = { t: (v.t || 0) + (votedTrue ? 1 : 0),
-                      f: (v.f || 0) + (votedTrue ? 0 : 1) };
-  const copy = { ...remoteVotes[id] };
-  fetch(`${FIREBASE_URL}/votes/${id}.json`, {
+  if (!firebaseUrl) return;
+  const key = votedTrue ? 't' : 'f';
+  fetch(`${firebaseUrl}/votes/${id}/${key}.json`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(copy),
+    body: JSON.stringify({ '.sv': { 'increment': 1 } }),
   }).catch(() => {});
+  // 手元の表示用データにも +1
+  const v = remoteVotes[id] || (remoteVotes[id] = { t: 0, f: 0 });
+  v[key] = (v[key] || 0) + 1;
 }
 
 function calcPcts(id) {
@@ -538,6 +575,7 @@ const quizData = [
 ];
 
 let shuffled = [], currentIdx = 0, score = 0, answered = false, totalNum = 1;
+let crowdToken = 0;   // 問題が切り替わったら古い%表示をキャンセルするための番号
 
 function shuffle(arr) {
   const a = [...arr];
@@ -548,16 +586,16 @@ function shuffle(arr) {
   return a;
 }
 
-async function init() {
+function init() {
   shuffled = shuffle(quizData);
   currentIdx = 0; score = 0; answered = false; totalNum = 1;
   updateTotalDisplay();
-  await fetchRemoteVotes();
   loadQuestion();
 }
 
 function loadQuestion() {
   answered = false;
+  crowdToken++;
   const q = shuffled[currentIdx];
 
   document.getElementById('badgeNum').textContent      = `第 ${totalNum} 問`;
@@ -613,7 +651,6 @@ function selectAnswer(userSaysTrue) {
 
   saveTotal(correct ? 1 : 0);
   updateTotalDisplay();
-  pushRemoteVote(q.id, userSaysTrue);
 
   const btnTrue  = document.getElementById('btnTrue');
   const btnFalse = document.getElementById('btnFalse');
@@ -646,34 +683,44 @@ function selectAnswer(userSaysTrue) {
   document.getElementById('explanation').classList.add('show');
   document.getElementById('btnNext').classList.add('show');
 
-  // みんなの % をボタン内部に表示（レイアウト不変）
-  if (USE_FIREBASE) {
-    setTimeout(() => {
-      const pcts = calcPcts(q.id);
-      if (!pcts) return;
+  // みんなの回答：最新票数を取得 → 自分の1票を加算 → ボタン内に%表示
+  const qid = q.id, votedTrue = userSaysTrue;
+  const token = crowdToken, started = Date.now();
+  fbReady.then(async () => {
+    if (!firebaseUrl) return;
+    await refreshQuestionVotes(qid);
+    pushRemoteVote(qid, votedTrue);
+    // 演出のため最低320msは待つ。次の問題に進んでいたら表示しない
+    const wait = Math.max(0, 320 - (Date.now() - started));
+    setTimeout(() => { if (token === crowdToken) showCrowd(qid); }, wait);
+  });
+}
 
-      const tPct = document.getElementById('crowdTruePct');
-      const fPct = document.getElementById('crowdFalsePct');
-      const tBar = document.getElementById('crowdTrueFill');
-      const fBar = document.getElementById('crowdFalseFill');
+// %とバーをボタン内部に表示する（レイアウトは動かない）
+function showCrowd(id) {
+  const pcts = calcPcts(id);
+  if (!pcts) return;
 
-      tPct.textContent = pcts.t + '%';
-      fPct.textContent = pcts.f + '%';
-      tPct.classList.add('show');
-      fPct.classList.add('show');
+  const tPct = document.getElementById('crowdTruePct');
+  const fPct = document.getElementById('crowdFalsePct');
+  const tBar = document.getElementById('crowdTrueFill');
+  const fBar = document.getElementById('crowdFalseFill');
 
-      const totalEl = document.getElementById('crowdTotal');
-      totalEl.textContent = pcts.total.toLocaleString() + ' 人 が 回 答';
-      totalEl.classList.add('show');
+  tPct.textContent = pcts.t + '%';
+  fPct.textContent = pcts.f + '%';
+  tPct.classList.add('show');
+  fPct.classList.add('show');
 
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        tBar.style.transition = 'width 0.75s ease';
-        fBar.style.transition = 'width 0.75s ease';
-        tBar.style.width = pcts.t + '%';
-        fBar.style.width = pcts.f + '%';
-      }));
-    }, 320);
-  }
+  const totalEl = document.getElementById('crowdTotal');
+  totalEl.textContent = pcts.total.toLocaleString() + ' 人 が 回 答';
+  totalEl.classList.add('show');
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    tBar.style.transition = 'width 0.75s ease';
+    fBar.style.transition = 'width 0.75s ease';
+    tBar.style.width = pcts.t + '%';
+    fBar.style.width = pcts.f + '%';
+  }));
 }
 
 function nextQuestion() {
@@ -685,6 +732,9 @@ function nextQuestion() {
   }
   loadQuestion();
 }
+
+// Firebase接続はバックグラウンドで開始（画面表示を待たせない）
+const fbReady = connectFirebase();
 
 init();
 </script>
